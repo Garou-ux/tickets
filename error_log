@@ -1,0 +1,6 @@
+[10-Apr-2022 16:52:04 UTC] PHP Warning:  require_once(config/conexion.php): failed to open stream: No such file or directory in /home/nudv3wdbpy9x/public_html/index.php on line 2
+[10-Apr-2022 16:52:04 UTC] PHP Fatal error:  require_once(): Failed opening required 'config/conexion.php' (include_path='.:/opt/alt/php74/usr/share/pear') in /home/nudv3wdbpy9x/public_html/index.php on line 2
+[10-Apr-2022 16:52:06 UTC] PHP Warning:  require_once(config/conexion.php): failed to open stream: No such file or directory in /home/nudv3wdbpy9x/public_html/index.php on line 2
+[10-Apr-2022 16:52:06 UTC] PHP Fatal error:  require_once(): Failed opening required 'config/conexion.php' (include_path='.:/opt/alt/php74/usr/share/pear') in /home/nudv3wdbpy9x/public_html/index.php on line 2
+[10-Apr-2022 16:52:08 UTC] PHP Warning:  require_once(config/conexion.php): failed to open stream: No such file or directory in /home/nudv3wdbpy9x/public_html/index.php on line 2
+[10-Apr-2022 16:52:08 UTC] PHP Fatal error:  require_once(): Failed opening required 'config/conexion.php' (include_path='.:/opt/alt/php74/usr/share/pear') in /home/nudv3wdbpy9x/public_html/index.php on line 2
