@@ -48,14 +48,14 @@
 									</span>
 								</a>
 							</li>
-							<li class="nav-item">
+							<!-- <li class="nav-item">
 								<a class="nav-link" href="#tabs-1-tab-2" role="tab" data-toggle="tab">
 									<span class="nav-link-in">
-                                    <!-- <i class="fa fa-bolt" aria-hidden="true"></i> -->
+                                    
 										Detalle
 									</span>
 								</a>
-							</li>
+							</li> -->
 							
 						</ul>
 					</div>

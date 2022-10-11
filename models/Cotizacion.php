@@ -169,6 +169,21 @@ public function SetCotiFactura($CotizacionId, $Factura){
     return $resultado = $query->fetchAll();
     
     }
+    
+    //da de baja la cotizacion
+    public function EliminarCotizacion($CotizacionId){
+           //Se actualiza el correo del cliente
+           $conectar = parent::Conexion();
+           parent::set_names();
+           $UpdateCotizacion = "UPDATE tblcotizacion SET Uso = :Uso WHERE CotizacionId = :CotizacionId";
+           $Uso = 0 ;
+           $stmt =$this->db->prepare($UpdateCotizacion);
+           $stmt->bindParam(':Uso', $Uso);
+           $stmt->bindParam(':CotizacionId', $CotizacionId);
+           $stmt->execute();
+           
+           return $resultado = $this->ReporteCotizacion($CotizacionId);
+    }
 }
 
 

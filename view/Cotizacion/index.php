@@ -14,7 +14,6 @@
     <div class="mobile-menu-left-overlay"></div>
     
     <?php require_once("../MainNav/nav.php");?>
-
 	<!-- Contenido -->
 	<div class="page-content">
 		<div class="container-fluid">
@@ -64,7 +63,8 @@
                             <th style="width: 10%;">IVA</th>
                             <th style="width: 10%;">Total</th>
                             <th class="text-center" style="width: 5%;">Factura</th>
-							<th class="text-center" style="width: 5%;">PDF</th>
+							<th class="text-center" style="width: 5%;"></th>
+							<!-- <th class="text-center" style="width: 5%;">Acciones</th> -->
 							
 						</tr>
 					</thead>
@@ -89,6 +89,7 @@
 
 	<?php require_once("../MainJs/js.php");?>
 	<?php require_once("ModalFacturaCoti.php");?>
+	<?php require_once("EditarCotizacion.php");?>
 	<script type="text/javascript" src="ctrlCotizacion.js"></script>
 
 </body>
