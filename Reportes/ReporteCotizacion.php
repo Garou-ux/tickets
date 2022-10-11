@@ -232,8 +232,6 @@ function TablaServiciosProductos()
             $tmpString = '';
         }
         $line = count($textArray);
-        
-        
         }
         $this->Cell($w[0],($line * $cellheight),$row[0],1);
         $xPos = $this->GetX();

@@ -184,22 +184,24 @@ var GridProductoMaterial = [
   //#endregion
 
   //#region Funcion para calcular lo totales de la cotizacion
-function MontosRenglon(index){
+function MontosRenglon(ObjectTotales){
     var Cantidad =0, Precio = 0, Total = 0;
-    Cantidad= $('#txCantidadMaterial'+index+'').val();
-    Precio = $('#txPrecio'+index+'').val(); 
+    
+    // Cantidad = ObjectTotales.Cantidad;
+    // Precio = ObjectTotales.Precio;
+    // Total = ObjectTotales.Total;
   
 
-    if (Cantidad>0 && Precio>0){
-Total = Cantidad * Precio;
-Total = parseFloat(Total).toFixed(2);
-$('#txTotal'+index+'').val(Total); 
+    // if (Cantidad>0 && Precio>0){
+// Total = Cantidad * Precio;
+// Total = parseFloat(Total).toFixed(2);
+//$('#txTotal'+index+'').val(Total); 
 
 // SpanSubtotal SpanIVA SpanTotal
 //Recorremos todos los valores de la tabla para asi obtener los totales de los productos ya sumados
 let SubTotal = 0, TotalCot = 0, IVA = 0, TotalCantidad =0, TotalPrecio = 0;
-for (var i = 0; i<GridProductoMaterial.length; i++){
-    TotalPrecio += parseFloat(document.getElementById("GridMateriales").rows[i+1].cells[4].firstChild.value);
+for (var i = 0; i < ObjectTotales.length; i++){
+    TotalPrecio += parseFloat(ObjectTotales[i].Total);
 }
 
 SubTotal = TotalPrecio;
@@ -217,7 +219,7 @@ IVA  = parseFloat(IVA).toFixed(2);
 $('#SpanSubtotal').text(SubTotal); 
 $('#SpanIVA').text(IVA); 
 $('#SpanTotal').text(TotalCot); 
-    }
+    // }
 }
   //#endregion
 
@@ -243,8 +245,7 @@ $('#SpanTotal').text(TotalCot);
         }
 //#region funcion que se encarga de guardar los datos de la cotizacion
 $(() => {
-    $('#BtnGuardaCotizacion').click(e => {
-    
+    $('#BtnGuardaCotizacion').click(e => { 
     e.preventDefault();
     Spinner('ContentCotizacion', true);
       //Ahora obtenemos los datos en general (Maestro)
@@ -255,19 +256,23 @@ $(() => {
       MaestroReporte.Contacto = $("#Cotizacion_Contacto").val();
       MaestroReporte.Correo = $("#Cotizacion_Correo").val();
       //totales
+      //Se recalculan los totales
+      MontosRenglon(clientes);
       MaestroReporte.SubTotal = $("#SpanSubtotal").text();
       MaestroReporte.IVA = $("#SpanIVA").text();
       MaestroReporte.Total = $("#SpanTotal").text();   
-      MaestroReporte.SubTotal =parseFloat(12);
-      MaestroReporte.IVA =parseFloat(12);
-      MaestroReporte.Total =parseFloat(12);
+      MaestroReporte.SubTotal =parseFloat(MaestroReporte.SubTotal);
+      MaestroReporte.IVA =parseFloat(MaestroReporte.IVA);
+      MaestroReporte.Total =parseFloat(MaestroReporte.Total);
       // totales 
       // //Ya con los datos listos, validamos que existan nulos
-      // if(MaestroReporte.Total == undefined || MaestroReporte.Total <=0 || isNaN(MaestroReporte.Total)){
-      //   swal('Capture los totales del reporte','','warning');
-      //   return;
-      // }Datos
-      // console.log(MaestroReporte);
+      if(MaestroReporte.Total == undefined || MaestroReporte.Total <=0 || isNaN(MaestroReporte.Total)){
+        swal('Capture los totales del reporte','','warning');
+        Spinner('ContentCotizacion', false);
+        return;
+      }
+      //Datos
+      console.log(MaestroReporte);
       
       if( MaestroReporte.ClienteId === 0 ||  MaestroReporte.ClienteId === null ||  MaestroReporte.ClienteId === undefined){
         swal('Selecciona el cliente','','warning');
@@ -293,11 +298,53 @@ $(() => {
          return;
       }
       let vMaestro = [];
+      let tmpDetalle = [];
       vMaestro.push(MaestroReporte);
       const Maestro = JSON.stringify(vMaestro);
       //console.log(Maestro);
+       let bandera = false;
+       //validamos los nulos y los repetidos
+      //  for(let i = 0; i< clientes.length; i++){
+      //  //validamos los productos repetidos
+      //  let Producto = clientes[i].ProductoId;
+      //  if(clientes.length == 1 &&  (clientes[i].Cantidad > 0 && clientes[i].Precio > 0 && clientes[i].Total > 0) ){
+      //   tmpDetalle.push({
+      //     CotizacionDetId:0,
+      //     CotizacionId:0,
+      //     ProductoId:  clientes[i].ProductoId,
+      //     Cantidad:clientes[i].Cantidad,
+      //     Precio: clientes[i].Precio,
+      //     Total: clientes[i].Total
+      //   });
+      //   bandera = true;
+      //  }
+      //  else if(clientes.length > 1 && (clientes[i].ProductoId != Producto) && (clientes[i].Cantidad > 0 && clientes[i].Precio > 0 && clientes[i].Total > 0)){
+      //   tmpDetalle.push({
+      //     CotizacionDetId:0,
+      //     CotizacionId:0,
+      //     ProductoId:  clientes[i].ProductoId,
+      //     Cantidad:clientes[i].Cantidad,
+      //     Precio: clientes[i].Precio,
+      //     Total: clientes[i].Total
+      //   });
+      //   bandera = true;
+      //  } else{
+       
+      //   // swal('Existen datos repetidos o revisa que las cantidades, precios y totales sean > 0','','warning');
+      //   // Spinner('ContentCotizacion', false);
+      //   // bandera = false;
+      //   // break;
+         
+      //  }
+    
+      //  }
+      //  if(!bandera){
+      //   Spinner('ContentCotizacion', false);
+      //  return;
+       
+      //  }
        var myJsonString = JSON.stringify(clientes);
-       //console.log(myJsonString);
+       console.log(myJsonString);
      
      $.post("../../controller/ctrlCotizacion.php?op=AddCotizacion",
           { Maestro: Maestro , Detalle : myJsonString}, 
@@ -356,7 +403,7 @@ $(() => {
           CargaDropdownClientes();
           // GETDataClients();
           //console.log(clientes);
-          
+          var Mensaje = '';
           //funcion para cargar el grid de los productos
           function LoadGrid(){
             $.ajax({
@@ -397,6 +444,7 @@ $(() => {
                               (!filter.Cantidad || client.ProductoId === filter.ProductoId) &&
                               (filter.Precio === undefined ||
                                 client.Precio === filter.Precio)
+                                (filter.ProductoId != client.ProductoId)
                             );
                           });
                       },
@@ -417,6 +465,7 @@ $(() => {
                                 Precio         : item.Precio,
                                 Total          : item.Total
                               });
+                              MontosRenglon(clientes);
                             }              
                       },
                       updateItem: function(item) {
@@ -434,6 +483,7 @@ $(() => {
                           // });
                           var clientIndex = $.inArray(item, clientes);
                           clientes.splice(clientIndex, 1);
+                          MontosRenglon(clientes);
                       }
                   },
                   onItemUpdating: function(args) {
@@ -442,6 +492,7 @@ $(() => {
                         //args.cancel = true;
                         let CantidadGrid = args.item.Cantidad * args.item.Precio;
                         args.item.Total = CantidadGrid;
+                        MontosRenglon(clientes);
                     }
                 },
                 //data : clientes,     
@@ -453,6 +504,7 @@ $(() => {
                  let CantidadGrid = args.item.Cantidad * args.item.Precio;
                  args.item.Total = CantidadGrid;
                   //alert("Specify the name of the item!");
+                  MontosRenglon(clientes);
               }
           },
           onItemUpdated: function(args) {
@@ -461,6 +513,7 @@ $(() => {
               console.log(args.item);
               let CantidadGrid = args.item.Cantidad * args.item.Precio;
               args.item.Total = CantidadGrid;
+              MontosRenglon(clientes);
             }
         },
         
@@ -470,74 +523,38 @@ $(() => {
             console.log(args.item);
             let CantidadGrid = args.item.Cantidad * args.item.Precio;
             args.item.Total = CantidadGrid;
+            MontosRenglon(clientes);
           }
       },
-      onItemDeleting: function(args) {
-        var tempVAT = 0
-        var TempTotal = 0;      
-        //alert(ClientObj);
-       tempVAT = 0.16;
-        var temp = clientes.Cantidad * clientes.Precio;
-       // var TienVAT = clientes.Cantidad * clientes.Precio;
-        TempTotal = temp;
-        clientes.Total = temp;
-        
-        for (var i = 0; i < this.db.orders.length; i++) {
-            if (this.db.orders[i].IdProduct == ClientObj.IdProduct) {
-                this.db.orders[i].Quantity = parseInt(ClientObj.Quantity);
-                this.db.orders[i].Price = parseInt(ClientObj.Price);
-                this.db.orders[i].VAT = ClientObj.VAT;
-                this.db.orders[i].Total = parseInt(ClientObj.Total);
-                console.log("tongtien UPDATED " + this.db.orders[i].Total);
-                console.log(this.db.orders[i]);
-            }
-        }
-        
-    //     var Cantidad =0, Precio = 0, Total = 0;
-    //     Cantidad= $('#txCantidadMaterial'+index+'').val();
-    //     Precio = $('#txPrecio'+index+'').val(); 
-      
-    
-    //     if (Cantidad>0 && Precio>0){
-    // Total = Cantidad * Precio;
-    // Total = parseFloat(Total).toFixed(2);
-    // $('#txTotal'+index+'').val(Total); 
-    
-    // // SpanSubtotal SpanIVA SpanTotal
-    // //Recorremos todos los valores de la tabla para asi obtener los totales de los productos ya sumados
-    // let SubTotal = 0, TotalCot = 0, IVA = 0, TotalCantidad =0, TotalPrecio = 0;
-    // for (var i = 0; i<GridProductoMaterial.length; i++){
-    //     TotalPrecio += parseFloat(document.getElementById("GridMateriales").rows[i+1].cells[4].firstChild.value);
-    // }
-    
-    // SubTotal = TotalPrecio;
-    // IVA = SubTotal * 0.16;
-    // TotalCot = SubTotal + IVA;
-    
-    
-    // // TotalCot = TotalPrecio;
-    // // SubTotal = TotalCot / 1.16;
-    // // IVA  = TotalCot * 0.16;
-    
-    // TotalCot = parseFloat(TotalCot).toFixed(2);
-    // SubTotal = parseFloat(SubTotal).toFixed(2);
-    // IVA  = parseFloat(IVA).toFixed(2);
-    // $('#SpanSubtotal').text(SubTotal); 
-    // $('#SpanIVA').text(IVA); 
-    // $('#SpanTotal').text(TotalCot); }
-    },
     
                 fields: [
                   {name: "CotizacionDetId", title: "CotizacionDetId", visible : false},
                   {name: "CotizacionId", title: "CotizacionId", visible : false},
                   { name: "ProductoId", title: "Producto", type: "select", width: 100, items: countries, valueField: "ProductoId", textField: "ProductoConcat" ,
-                  validate: { message: "Favor de Seleccionar un producto ;c", validator: function(value) { return value > 0; } }
+                  validate: { message: 'Ya seleccionaste ese producto', validator: function(value, item) { 
+                  
+                  if(value <= 0){
+                  Mensaje = 'Favor de seleccionar un producto ;c';
+                  return false;
+                  }
+                    var gridData = $("#jsGrid").jsGrid("option", "data");
+                                	 
+                    for (i = 0; i < gridData.length; i++) {                                		 
+                          if(value == gridData[i].ProductoId ){
+                          Mensaje = 'Ya seleccionaste ese producto '
+                            return false;
+                            
+                          }
+                      }
+                    return true; 
+                  
+                  } }
                   },
                   { name: "Cantidad", title: "Cantidad", type: "number", width: 50, filtering: false,
-                  validate: { message: "La cantidad debe ser mayor a 0", validator: function(value){ return value;}},        
+                  validate: { message: "La cantidad debe ser mayor a 0", validator: function(value, item){ return value > 0;}},        
                   },
                   { name: "Precio", title: "Precio", type: "number", width: 50, filtering: false ,
-                  validate: { message: "El Precio debe ser mayor a 0", validator: function(value){ return value;}}
+                  validate: { message: "El Precio debe ser mayor a 0", validator: function(value){ return value > 0;}}
                   },
                   { name: "Total", title: "Total", width: 50, filtering: false, editable : false ,
                 //validate: { message: "El Total debe ser mayor a 0", validator: function(value){ return value;}}
