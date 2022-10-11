@@ -124,6 +124,11 @@ $.post("../../controller/ctrlTicket.php?op=GetTicketXId",
     $('#SpanEstatusTicket').html(data.Estatus);
     $('#SpanNombreUsuario').html(data.Nombre);
     $('#SpanFechaCreacion').html(data.FechaCreado);
+    $.post("../../controller/ctrlTicket.php?op=GetAllDataTicketXId",
+    {TicketId: TicketId }, function(dataa){
+    dataa = JSON.parse(dataa);
+      $('#SpanSolicitante').html(dataa[0].NombreSolicitante);
+    });
     $('#DataCategoria').val(data.Categoria);
     $('#DataTitulo').val(data.Titulo);
     TicketEstatus = data.TicketEstatus;

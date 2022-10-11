@@ -200,6 +200,11 @@ case "DeleteTicket":
 case "SetTicketPagado":
     $Datos = $Ticket->SetTicketPagado($_POST["TicketId"]);
 break;
+
+case "GetAllDataTicketXId":
+    $Datos = $Ticket->GetAllDataTicketXId($_POST["TicketId"]);
+    echo json_encode($Datos);
+break;
     }
 
 

@@ -7,8 +7,8 @@ class Conectar {
         try{
                      //local
            $conectar = $this ->db = 
-    //    new PDO("mysql:host=173.201.190.12;dbname=conectotaldb", "AlejandroIslas", "9425Dcfnp!!qal30");
-      new PDO("mysql:host=localhost;dbname=conectotaldb", "root", "Password1");
+       new PDO("mysql:host=173.201.190.12;dbname=conectotaldb", "AlejandroIslas", "9425Dcfnp!!qal30");
+      //new PDO("mysql:host=localhost;dbname=conectotaldb", "root", "Password1");
 //server
 //$conectar = $this ->db = 
   // new PDO("mysql:host=localhost;dbname=conectotaldb", "AlejandroIslas", "9425Dcfnp!!qal30");

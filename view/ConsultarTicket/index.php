@@ -97,6 +97,7 @@ Regresar
 <div id="SpanEstatusTicket"></div>
 <span class="label label-pill label-primary" id="SpanNombreUsuario"></span>
 <span class="label label-pill label-default" id="SpanFechaCreacion"></span>
+<span class="label label-pill label-primary">Solicitante : <span id="SpanSolicitante"></span></span>
 <ol class="breadcrumb breadcrumb-simple">
 </ol>
 </div>

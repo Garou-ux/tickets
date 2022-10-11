@@ -123,6 +123,17 @@ public function GetSolicitanteTicket($TicketId){
     $sql->execute();
     return $resultado = $sql->fetchAll();
 }
+
+//obtiene todas las columnas del ticket
+public function GetAllDataTicketXId($TicketId){
+    $conectar = parent::Conexion();
+    parent::set_names();
+    $sql = "call Ticket_GetAllDataTicketXId(?)";
+    $sql = $conectar->prepare($sql);
+    $sql ->bindParam(1,$TicketId);
+    $sql->execute();
+    return $resultado = $sql->fetchAll();
+}
 }
 ?>
 
