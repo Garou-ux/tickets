@@ -149,10 +149,10 @@ return $resultado = $query->fetchAll();
     
     //setea la factura a la cotizacion
 public function SetCotiFactura($CotizacionId, $Factura){
-    $conectar = parent::Conexion();
+    $conectar         = parent::Conexion();
     parent::set_names();
-    $query = "call Cotizacion_SetCotiFactura(?,?)";
-    $query = $conectar->prepare($query);
+    $query            = "call Cotizacion_SetCotiFactura(?,?)";
+    $query            = $conectar->prepare($query);
     $query->bindParam(1,$CotizacionId);
     $query->bindParam(2,$Factura);
     $query->execute();
