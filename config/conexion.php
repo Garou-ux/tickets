@@ -12,7 +12,7 @@ class Conectar {
 //server
 //$conectar = $this ->db = 
   //new PDO("mysql:host=localhost;dbname=conectotaldb", "AlejandroIslas", "9425Dcfnp!!qal30");
-
+//?*&Tde!l~%;y
             return $conectar;
         }catch(Exception $e){
 print "Ocurrio un error al establecer conexión con la base de datos, intentelo de nuevo" . $e->getMessage(). "<br/>";
