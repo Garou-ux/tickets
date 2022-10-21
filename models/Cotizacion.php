@@ -1,8 +1,22 @@
 <?php
-
+include "ModelCotizacionDet.php";
 class Cotizacion extends Conectar{
 
 
+
+    private function readDetalle($row) {
+        $result = new tblcotizaciondet();
+        $result->CotizacionDetId = $row["CotizacionDetId"];
+        $result->CotizacionId = $row["CotizacionId"];
+        $result->ProductoId = $row["ProductoId"];
+        $result->Descripcion = $row["Descripcion"];
+        $result->Cantidad = $row["Cantidad"];
+        $result->Precio = $row["Precio"];
+        $result->Total = $row["Total"];
+        // $result->created_at = $row["created_at"];
+        // $result->updated_at = $row["updated_at"];
+        return $result;
+    }
 
     //Esta funcion obtiene la lista de las cotizaciones
     public function ListaCotizacion(){
@@ -189,11 +203,17 @@ public function SetCotiFactura($CotizacionId, $Factura){
     public function LoadDetCotiXId($CotizacionId){
         $conectar = parent::Conexion();
         parent::set_names();
-        $query2 = "call Cotizacion_ReporteCotizacionDet(?)";
-        $query2 = $conectar->prepare($query2);
-        $query2->bindParam(1,$CotizacionId);
-        $query2->execute();
-        return $query2->fetchAll();
+        $sql = "SELECT * FROM tblcotizaciondet WHERE CotizacionId = :CotizacionId";
+        $q = $this->db->prepare($sql);
+        $q->bindParam(":CotizacionId", $CotizacionId);
+        $q->execute();
+        $rows = $q->fetchAll();
+
+        $result = array();
+        foreach($rows as $row) {
+            array_push($result, $this->readDetalle($row));
+        }
+        return $result;
     }
     
     //obtiene los datos de la cotizacion x id
@@ -210,15 +230,8 @@ public function SetCotiFactura($CotizacionId, $Factura){
          $resultado = array(
          "Cotizacion"    => $cotiza,
          "CotizacionDet" =>  $this->LoadDetCotiXId($CotizacionId)
-         );
-         
-         return $resultado;
-        
+         );       
+          return $resultado; 
     }
 }
-
-
-
-
-
 ?>

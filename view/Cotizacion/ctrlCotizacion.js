@@ -1,6 +1,7 @@
 
 var Factura_TicketId = 0;
 var clientes = [];
+var CotizacionIdEditar = 0;
 //#region funcion que carga la tabla de las cotizaciones
 function fnListaCotizaciones(){
     //#region Llenamos la tabla que contendra la lista de usuarios
@@ -69,10 +70,10 @@ fnListaCotizaciones();
 function fnMostrarPDFCotizacion(Id){
 
   //local
-   var _url = "http://localhost:8010/tickets/Reportes/ReporteCotizacion.php?CotizacionId="+Id+"";
+ var _url = "http://localhost:8010/tickets/Reportes/ReporteCotizacion.php?CotizacionId="+Id+"";
   
   //server
-  //var _url = "http://ctnredes.com/Reportes/ReporteCotizacion.php?CotizacionId="+Id+"";
+ // var _url = "http://ctnredes.com/Reportes/ReporteCotizacion.php?CotizacionId="+Id+"";
   
   //Mandamos a imprimir el reporte
   printJS({ printable: _url, type: 'pdf', showModal: true });
@@ -190,7 +191,9 @@ swal({
 function fnEditarCotizacion(CotizacionId){
      
     $('#SpanModalCotizacionId').text(CotizacionId); 
+    $('#CotizacionModId').val(CotizacionId);
     $('#myModal').modal('show');
+    CargaDropdownClientes();
     LoadGridProductos(CotizacionId);
 
 }
@@ -283,44 +286,78 @@ $('#SpanTotal').text(TotalCot);
             deleteConfirm: "Do you really want to delete client?",
             
             controller: {
-                loadData: function() {
-                // console.log(filter);
-                    return $.ajax({
-                        type: "GET",
-                        url: "../../controller/ctrlCotizacion.php?op=LoadCotizacionXId",
-                        data:{CotizacionId : CotizacionId }
+              loadData: function(filter) {
+                return $.ajax({
+                    type: "POST",
+                    url: "../../controller/ctrlCotizacion.php?op=LoadCotizacionXId",
+                    data:{CotizacionId : CotizacionId }
                 }).done(function(data, response){
                 
-                 // data = JSON.parse(data);
-                console.log(data.CotizacionDet[0].Cantidad);
-                for (let index = 0; index < data.CotizacionDet.length; index++) {
-                  const element = data.CotizacionDet[index];
-                  clientes.push(
-                    {
-                      CotizacionDetId: 0,
-                      CotizacionId   : 0,
-                      ProductoId     : item.ProductoId,
-                      Cantidad       : item.Cantidad,
-                      Precio         : item.Precio,
-                      Total          : item.Total
-                    });
+                   // data = JSON.parse(data);
+                    console.log(data);
+                    clientes.push(data);
+                  ///console.log(data.CotizacionDet[0].Cantidad);
+                  // for (let index = 0; index < data.CotizacionDet.length; index++) {
+                  //  // const element = data.CotizacionDet[index];
+                  //  // console.log(data.CotizacionDet[index].Cantidad);
+                  //   clientes.push(
+                  //     {
+                  //       CotizacionDetId: parseInt(data.CotizacionDet[index].CotizacionDetId),
+                  //       CotizacionId   : parseInt($('#CotizacionModId').val()),
+                  //       ProductoId     : parseInt(data.CotizacionDet[index].ProductoId),
+                  //       Cantidad       : parseInt(data.CotizacionDet[index].Cantidad),
+                  //       Precio         : parseFloat(data.CotizacionDet[index].Precio),
+                  //       Total          : parseFloat(data.CotizacionDet[index].Total),
+                  //       Descripcion    : data.CotizacionDet[index].Descripcion
+                  //     });
+                    
+                  // }
                   
-                }
-                });
-                    //como devuelve 2 valores iguales no se porque, se borran los nulos
-                    // return $.grep(clientes, function(client) {
-                    //   return (
-                    //     (!filter.CotizacionDetId || client.CotizacionDetId.indexOf(filter.CotizacionDetId) > -1) &&
-                    //     (!filter.Cantidad || client.Cantidad === filter.Cantidad) &&
-                    //     (!filter.Cantidad ||
-                    //       client.Cantidad.indexOf(filter.Cantidad) > -1) &&
-                    //     (!filter.Cantidad || client.ProductoId === filter.ProductoId) &&
-                    //     (filter.Precio === undefined ||
-                    //       client.Precio === filter.Precio)
-                    //       (filter.ProductoId != client.ProductoId)
-                    //   );
-                    // });
-                },
+                  console.log(clientes);
+                  });
+            },
+                // loadData: function() {
+                // // console.log(filter);
+                //     return $.ajax({
+                //         type: "POST",
+                //         url: "../../controller/ctrlCotizacion.php?op=LoadCotizacionXId",
+                //         data:{CotizacionId : CotizacionId }
+                // }).done(function(data, response){
+                
+                //  // data = JSON.parse(data);
+                // ///console.log(data.CotizacionDet[0].Cantidad);
+                // for (let index = 0; index < data.CotizacionDet.length; index++) {
+                //  // const element = data.CotizacionDet[index];
+                //  // console.log(data.CotizacionDet[index].Cantidad);
+                //   clientes.push(
+                //     {
+                //       CotizacionDetId: parseInt(data.CotizacionDet[index].CotizacionDetId),
+                //       CotizacionId   : parseInt($('#CotizacionModId').val()),
+                //       ProductoId     : parseInt(data.CotizacionDet[index].ProductoId),
+                //       Cantidad       : parseInt(data.CotizacionDet[index].Cantidad),
+                //       Precio         : parseFloat(data.CotizacionDet[index].Precio),
+                //       Total          : parseFloat(data.CotizacionDet[index].Total),
+                //       Descripcion    : data.CotizacionDet[index].Descripcion
+                //     });
+                  
+                // }
+                
+                // console.log(clientes);
+                // });
+                //     //como devuelve 2 valores iguales no se porque, se borran los nulos
+                //     // return $.grep(clientes, function(client) {
+                //     //   return (
+                //     //     (!filter.CotizacionDetId || client.CotizacionDetId.indexOf(filter.CotizacionDetId) > -1) &&
+                //     //     (!filter.Cantidad || client.Cantidad === filter.Cantidad) &&
+                //     //     (!filter.Cantidad ||
+                //     //       client.Cantidad.indexOf(filter.Cantidad) > -1) &&
+                //     //     (!filter.Cantidad || client.ProductoId === filter.ProductoId) &&
+                //     //     (filter.Precio === undefined ||
+                //     //       client.Precio === filter.Precio)
+                //     //       (filter.ProductoId != client.ProductoId)
+                //     //   );
+                //     // });
+                // },
                 insertItem: function(item) {
                     // return $.ajax({
                     //     type: "POST",
@@ -332,7 +369,7 @@ $('#SpanTotal').text(TotalCot);
                         clientes.push(
                         {
                           CotizacionDetId: 0,
-                          CotizacionId   : 0,
+                          CotizacionId   : $('#CotizacionModId').val(),
                           ProductoId     : item.ProductoId,
                           Cantidad       : item.Cantidad,
                           Precio         : item.Precio,
@@ -368,7 +405,7 @@ $('#SpanTotal').text(TotalCot);
                   MontosRenglon(clientes);
               }
           },
-          //data : clientes,     
+        //  data : clientes,     
       onItemInserting: function(args) {
         // cancel insertion of the item with empty 'name' field
         if(args.item.Cantidad >0) {
@@ -399,7 +436,7 @@ $('#SpanTotal').text(TotalCot);
       MontosRenglon(clientes);
     }
 },
-
+//controller: clientes,
           fields: [
             {name: "CotizacionDetId", title: "CotizacionDetId", visible : false},
             {name: "CotizacionId", title: "CotizacionId", visible : false},
@@ -442,3 +479,37 @@ $('#SpanTotal').text(TotalCot);
     
 
 //#endregion
+
+//#region carga el dropdown de clientes(usuarios)
+function CargaDropdownClientes(){
+  $.post("../../controller/ctrlUsuario.php?op=ListaUsuariosClientes",
+   function(data){
+    $('#Cotizacion_ClienteId').html(data);
+  });
+}
+//#endregion
+
+//#region funcion que obtiene el evento onchange del select de clientes y asi cargamos el nombre del cliente al input
+function GetUsuarioCliente(){
+  //Se obtiene el valor seleccionado
+  var select = document.getElementById('Cotizacion_ClienteId');
+                var option = select.options[select.selectedIndex];
+        var UsuarioId = option.value;
+        //llamamos al servicio para obtener los datos del cliente y mostrarlos en el input
+  $.post("../../controller/ctrlUsuario.php?op=GetUsuario",
+  {UsuarioId : UsuarioId }, function(data){
+      data = JSON.parse(data);//parseamos a objeto json los valores de la bd
+      $('#Cotizacion_NombreCliente').val(data.RazonSocial);
+      $('#Cotizacion_Correo').val(data.Correo);
+  });
+}
+
+//#region funcion que se encarga de guardar los datos de la cotizacion
+$(() => {
+  $('#BtnEditarcotizacion').click(e => { 
+  e.preventDefault();
+console.log(clientes);
+          });
+          });
+        
+      //#endregion

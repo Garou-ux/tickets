@@ -14,7 +14,7 @@
         <div class="tab-content">
                     <!-- Panel Grid Productos -->
                     <form>
-						
+						<<input type="hidden" name="CotizacionModId" id ="CotizacionModId">
 				
 					<div role="tabpanel" class="tab-pane fade in active" id="tabs-1-tab-1">
                     <div class="box-typical box-typical-padding">
