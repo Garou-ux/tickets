@@ -303,46 +303,6 @@ $(() => {
       const Maestro = JSON.stringify(vMaestro);
       //console.log(Maestro);
        let bandera = false;
-       //validamos los nulos y los repetidos
-      //  for(let i = 0; i< clientes.length; i++){
-      //  //validamos los productos repetidos
-      //  let Producto = clientes[i].ProductoId;
-      //  if(clientes.length == 1 &&  (clientes[i].Cantidad > 0 && clientes[i].Precio > 0 && clientes[i].Total > 0) ){
-      //   tmpDetalle.push({
-      //     CotizacionDetId:0,
-      //     CotizacionId:0,
-      //     ProductoId:  clientes[i].ProductoId,
-      //     Cantidad:clientes[i].Cantidad,
-      //     Precio: clientes[i].Precio,
-      //     Total: clientes[i].Total
-      //   });
-      //   bandera = true;
-      //  }
-      //  else if(clientes.length > 1 && (clientes[i].ProductoId != Producto) && (clientes[i].Cantidad > 0 && clientes[i].Precio > 0 && clientes[i].Total > 0)){
-      //   tmpDetalle.push({
-      //     CotizacionDetId:0,
-      //     CotizacionId:0,
-      //     ProductoId:  clientes[i].ProductoId,
-      //     Cantidad:clientes[i].Cantidad,
-      //     Precio: clientes[i].Precio,
-      //     Total: clientes[i].Total
-      //   });
-      //   bandera = true;
-      //  } else{
-       
-      //   // swal('Existen datos repetidos o revisa que las cantidades, precios y totales sean > 0','','warning');
-      //   // Spinner('ContentCotizacion', false);
-      //   // bandera = false;
-      //   // break;
-         
-      //  }
-    
-      //  }
-      //  if(!bandera){
-      //   Spinner('ContentCotizacion', false);
-      //  return;
-       
-      //  }
        var myJsonString = JSON.stringify(clientes);
        console.log(myJsonString);
      
@@ -355,18 +315,9 @@ $(() => {
           //  type: null,
            data = JSON.parse(data);
            if(data.Bandera){
-            // swal({
-            //   title : data.Title,
-            //   text  : data.Mensaje,
-            //   type  : data.Type,
-            // //   });
-            //   swal({
-            //     text: data.Mensaje,
-            //     title : data.Title,
-            //     type: 'warning'
-            //   }
-            //  );
-            swal(data.Title, data.Mensaje, data.Type);
+            swal(data.Title, 
+            data.Mensaje, 
+            data.Type);
             clientes = []; 
             $("#jsGrid").jsGrid("clearInsert");
             $("#jsGrid").jsGrid("reset");
@@ -385,9 +336,7 @@ $(() => {
           var _url = "http://localhost:8010/tickets/Reportes/ReporteCotizacion.php?CotizacionId="+data.CotizacionId+"";
           
           // //server
-          //  var _url = "http://ctnredes.com/Reportes/ReporteServicio.php?ReporteServicioId="+data.ReporteServicioId+"";
-          
-          
+          // var _url = "http://ctnredes.com/Reportes/ReporteServicio.php?ReporteServicioId="+data.CotizacionId+"";     
         // console.log(_url);
           // //Mandamos a imprimir el reporte
         printJS({ printable: _url, type: 'pdf', showModal: true });
@@ -404,6 +353,8 @@ $(() => {
             });
             });
         //#endregion
+        
+        
           //Ejecutamos la funcion para llenar el select de los clientes
           CargaDropdownClientes();
           // GETDataClients();
@@ -468,7 +419,8 @@ $(() => {
                                 ProductoId     : item.ProductoId,
                                 Cantidad       : item.Cantidad,
                                 Precio         : item.Precio,
-                                Total          : item.Total
+                                Total          : item.Total,
+                                Descripcion    : item.Descripcion
                               });
                               MontosRenglon(clientes);
                             }              
@@ -495,7 +447,7 @@ $(() => {
                     // cancel update of the item with empty 'name' field
                     if(args.item.Cantidad > 0) {
                         //args.cancel = true;
-                        let CantidadGrid = args.item.Cantidad * args.item.Precio;
+                        let CantidadGrid = args.item.Cantidad * parseFloat(args.item.Precio);
                         args.item.Total = CantidadGrid;
                         MontosRenglon(clientes);
                     }
@@ -506,7 +458,7 @@ $(() => {
               if(args.item.Cantidad >0) {
                  // args.cancel = true;
                  console.log(args.item);
-                 let CantidadGrid = args.item.Cantidad * args.item.Precio;
+                 let CantidadGrid = args.item.Cantidad * parseFloat(args.item.Precio);
                  args.item.Total = CantidadGrid;
                   //alert("Specify the name of the item!");
                   MontosRenglon(clientes);
@@ -516,7 +468,7 @@ $(() => {
             // cancel update of the item with empty 'name' field
             if(args.item.Cantidad > 0) {
               console.log(args.item);
-              let CantidadGrid = args.item.Cantidad * args.item.Precio;
+              let CantidadGrid = args.item.Cantidad * parseFloat(args.item.Precio);
               args.item.Total = CantidadGrid;
               MontosRenglon(clientes);
             }
@@ -526,8 +478,8 @@ $(() => {
           // cancel editing of the row of item with field 'ID' = 0
           if(args.item.Cantidad > 0) {
             console.log(args.item);
-            let CantidadGrid = args.item.Cantidad * args.item.Precio;
-            args.item.Total = CantidadGrid;
+           let CantidadGrid = args.item.Cantidad * parseFloat(args.item.Precio);
+                        args.item.Total = CantidadGrid;
             MontosRenglon(clientes);
           }
       },
@@ -555,11 +507,15 @@ $(() => {
                   
                   } }
                   },
+                  {
+                  name : "Descripcion", title: "Descripcion", type : "text", filtering : false
+                  
+                  },
                   { name: "Cantidad", title: "Cantidad", type: "number", width: 50, filtering: false,
                   validate: { message: "La cantidad debe ser mayor a 0", validator: function(value, item){ return value > 0;}},        
                   },
-                  { name: "Precio", title: "Precio", type: "number", width: 50, filtering: false ,
-                  validate: { message: "El Precio debe ser mayor a 0", validator: function(value){ return value > 0;}}
+                  { name: "Precio", title: "Precio", type: "text", width: 50, filtering: false ,
+                  validate: { message: "El Precio debe ser mayor a 0", validator: function(value){ return parseFloat(value) > 0;}}
                   },
                   { name: "Total", title: "Total", width: 50, filtering: false, editable : false ,
                 //validate: { message: "El Total debe ser mayor a 0", validator: function(value){ return value;}}

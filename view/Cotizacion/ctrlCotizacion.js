@@ -15,7 +15,7 @@ function fnListaCotizaciones(){
         buttons: [		          
                 
                 'excelHtml5',
-               
+                
                 ],
         "ajax":{
             url: '../../controller/ctrlCotizacion.php?op=ListaCotizacion',
@@ -69,7 +69,7 @@ fnListaCotizaciones();
 function fnMostrarPDFCotizacion(Id){
 
   //local
-    var _url = "http://localhost:8010/tickets/Reportes/ReporteCotizacion.php?CotizacionId="+Id+"";
+   var _url = "http://localhost:8010/tickets/Reportes/ReporteCotizacion.php?CotizacionId="+Id+"";
   
   //server
   //var _url = "http://ctnredes.com/Reportes/ReporteCotizacion.php?CotizacionId="+Id+"";
@@ -191,6 +191,7 @@ function fnEditarCotizacion(CotizacionId){
      
     $('#SpanModalCotizacionId').text(CotizacionId); 
     $('#myModal').modal('show');
+    LoadGridProductos(CotizacionId);
 
 }
 
@@ -260,167 +261,184 @@ $('#SpanTotal').text(TotalCot);
 
 
     //funcion para cargar el grid de los productos
-    function LoadGridProductos(){
-        $.ajax({
-          type: "GET",
-          // url: "http://localhost:8010/jsgridphp/countries/index.php"
-          data: {Caso : 0},
-          url: '../../controller/ctrlProducto.php?op=ListProducto'
-      }).done(function(countries) {
-      
-          countries.unshift({ ProductoId: "0", ProductoConcat: "" });
-          //GETDataClients();
-          $("#jsGridEditarCotizacion").jsGrid({
-              
-              width: "100%",
-              filtering: false,
-              inserting: true,
-              editing: true,
-              sorting: true,
-              paging: true,
-              autoload: true,
-              deleteConfirm: "Do you really want to delete client?",
-              
-              controller: {
-                  loadData: function(filter) {
-                  // console.log(filter);
-                      // return $.ajax({
-                      //     type: "GET",
-                      //     url: "http://localhost:8010/jsgridphp/clients/index.php",
-                      //     data: filter
-                      // });
-                      //como devuelve 2 valores iguales no se porque, se borran los nulos
-                      return $.grep(clientes, function(client) {
-                        return (
-                          (!filter.CotizacionDetId || client.CotizacionDetId.indexOf(filter.CotizacionDetId) > -1) &&
-                          (!filter.Cantidad || client.Cantidad === filter.Cantidad) &&
-                          (!filter.Cantidad ||
-                            client.Cantidad.indexOf(filter.Cantidad) > -1) &&
-                          (!filter.Cantidad || client.ProductoId === filter.ProductoId) &&
-                          (filter.Precio === undefined ||
-                            client.Precio === filter.Precio)
-                            (filter.ProductoId != client.ProductoId)
-                        );
-                      });
-                  },
-                  insertItem: function(item) {
-                      // return $.ajax({
-                      //     type: "POST",
-                      //     url: "http://localhost:8010/jsgridphp/clients/index.php",
-                      //     data: item
-                      // });
-                        
-                        if (item.Cantidad != undefined){
-                          clientes.push(
-                          {
-                            CotizacionDetId: 0,
-                            CotizacionId   : 0,
-                            ProductoId     : item.ProductoId,
-                            Cantidad       : item.Cantidad,
-                            Precio         : item.Precio,
-                            Total          : item.Total
-                          });
-                          MontosRenglon(clientes);
-                        }              
-                  },
-                  updateItem: function(item) {
-                      // return $.ajax({
-                      //     type: "PUT",
-                      //     url: "http://localhost:8010/jsgridphp/clients/index.php",
-                      //     data: item
-                      // });
-                  },
-                  deleteItem: function(item) {
-                      // return $.ajax({
-                      //     type: "DELETE",
-                      //     url: "http://localhost:8010/jsgridphp/clients/index.php",
-                      //     data: item
-                      // });
-                      var clientIndex = $.inArray(item, clientes);
-                      clientes.splice(clientIndex, 1);
-                      MontosRenglon(clientes);
-                  }
-              },
-              onItemUpdating: function(args) {
-                // cancel update of the item with empty 'name' field
-                if(args.item.Cantidad > 0) {
-                    //args.cancel = true;
-                    let CantidadGrid = args.item.Cantidad * args.item.Precio;
-                    args.item.Total = CantidadGrid;
+    function LoadGridProductos(CotizacionId){
+      $.ajax({
+        type: "GET",
+        // url: "http://localhost:8010/jsgridphp/countries/index.php"
+        data: {Caso : 0},
+        url: '../../controller/ctrlProducto.php?op=ListProducto'
+    }).done(function(countries) {
+    
+        countries.unshift({ ProductoId: "0", ProductoConcat: "" });
+        //GETDataClients();
+        $("#jsGridEditarCotizacion").jsGrid({
+            
+            width: "100%",
+            filtering: false,
+            inserting: true,
+          editing: true,
+            sorting: true,
+            paging: true,
+            autoload: true,
+            deleteConfirm: "Do you really want to delete client?",
+            
+            controller: {
+                loadData: function() {
+                // console.log(filter);
+                    return $.ajax({
+                        type: "GET",
+                        url: "../../controller/ctrlCotizacion.php?op=LoadCotizacionXId",
+                        data:{CotizacionId : CotizacionId }
+                }).done(function(data, response){
+                
+                 // data = JSON.parse(data);
+                console.log(data.CotizacionDet[0].Cantidad);
+                for (let index = 0; index < data.CotizacionDet.length; index++) {
+                  const element = data.CotizacionDet[index];
+                  clientes.push(
+                    {
+                      CotizacionDetId: 0,
+                      CotizacionId   : 0,
+                      ProductoId     : item.ProductoId,
+                      Cantidad       : item.Cantidad,
+                      Precio         : item.Precio,
+                      Total          : item.Total
+                    });
+                  
+                }
+                });
+                    //como devuelve 2 valores iguales no se porque, se borran los nulos
+                    // return $.grep(clientes, function(client) {
+                    //   return (
+                    //     (!filter.CotizacionDetId || client.CotizacionDetId.indexOf(filter.CotizacionDetId) > -1) &&
+                    //     (!filter.Cantidad || client.Cantidad === filter.Cantidad) &&
+                    //     (!filter.Cantidad ||
+                    //       client.Cantidad.indexOf(filter.Cantidad) > -1) &&
+                    //     (!filter.Cantidad || client.ProductoId === filter.ProductoId) &&
+                    //     (filter.Precio === undefined ||
+                    //       client.Precio === filter.Precio)
+                    //       (filter.ProductoId != client.ProductoId)
+                    //   );
+                    // });
+                },
+                insertItem: function(item) {
+                    // return $.ajax({
+                    //     type: "POST",
+                    //     url: "http://localhost:8010/jsgridphp/clients/index.php",
+                    //     data: item
+                    // });
+                      
+                      if (item.Cantidad != undefined){
+                        clientes.push(
+                        {
+                          CotizacionDetId: 0,
+                          CotizacionId   : 0,
+                          ProductoId     : item.ProductoId,
+                          Cantidad       : item.Cantidad,
+                          Precio         : item.Precio,
+                          Total          : item.Total
+                        });
+                        MontosRenglon(clientes);
+                      }              
+                },
+                updateItem: function(item) {
+                    // return $.ajax({
+                    //     type: "PUT",
+                    //     url: "http://localhost:8010/jsgridphp/clients/index.php",
+                    //     data: item
+                    // });
+                },
+                deleteItem: function(item) {
+                    // return $.ajax({
+                    //     type: "DELETE",
+                    //     url: "http://localhost:8010/jsgridphp/clients/index.php",
+                    //     data: item
+                    // });
+                    var clientIndex = $.inArray(item, clientes);
+                    clientes.splice(clientIndex, 1);
                     MontosRenglon(clientes);
                 }
             },
-            //data : clientes,     
-        onItemInserting: function(args) {
-          // cancel insertion of the item with empty 'name' field
-          if(args.item.Cantidad >0) {
-             // args.cancel = true;
-             console.log(args.item);
-             let CantidadGrid = args.item.Cantidad * args.item.Precio;
-             args.item.Total = CantidadGrid;
-              //alert("Specify the name of the item!");
-              MontosRenglon(clientes);
-          }
-      },
-      onItemUpdated: function(args) {
-        // cancel update of the item with empty 'name' field
-        if(args.item.Cantidad > 0) {
-          console.log(args.item);
-          let CantidadGrid = args.item.Cantidad * args.item.Precio;
-          args.item.Total = CantidadGrid;
-          MontosRenglon(clientes);
+            onItemUpdating: function(args) {
+              // cancel update of the item with empty 'name' field
+              if(args.item.Cantidad > 0) {
+                  //args.cancel = true;
+                  let CantidadGrid = args.item.Cantidad * parseFloat(args.item.Precio);
+                  args.item.Total = CantidadGrid;
+                  MontosRenglon(clientes);
+              }
+          },
+          //data : clientes,     
+      onItemInserting: function(args) {
+        // cancel insertion of the item with empty 'name' field
+        if(args.item.Cantidad >0) {
+           // args.cancel = true;
+           console.log(args.item);
+           let CantidadGrid = args.item.Cantidad * parseFloat(args.item.Precio);
+           args.item.Total = CantidadGrid;
+            //alert("Specify the name of the item!");
+            MontosRenglon(clientes);
         }
     },
-    
-    onItemEditing: function(args) {
-      // cancel editing of the row of item with field 'ID' = 0
+    onItemUpdated: function(args) {
+      // cancel update of the item with empty 'name' field
       if(args.item.Cantidad > 0) {
         console.log(args.item);
-        let CantidadGrid = args.item.Cantidad * args.item.Precio;
+        let CantidadGrid = args.item.Cantidad * parseFloat(args.item.Precio);
         args.item.Total = CantidadGrid;
         MontosRenglon(clientes);
       }
   },
+  
+  onItemEditing: function(args) {
+    // cancel editing of the row of item with field 'ID' = 0
+    if(args.item.Cantidad > 0) {
+      console.log(args.item);
+     let CantidadGrid = args.item.Cantidad * parseFloat(args.item.Precio);
+                  args.item.Total = CantidadGrid;
+      MontosRenglon(clientes);
+    }
+},
 
-            fields: [
-              {name: "CotizacionDetId", title: "CotizacionDetId", visible : false},
-              {name: "CotizacionId", title: "CotizacionId", visible : false},
-              { name: "ProductoId", title: "Producto", type: "select", width: 100, items: countries, valueField: "ProductoId", textField: "ProductoConcat" ,
-              validate: { message: 'Ya seleccionaste ese producto', validator: function(value, item) { 
-              
-              if(value <= 0){
-              Mensaje = 'Favor de seleccionar un producto ;c';
-              return false;
-              }
-                var gridData = $("#jsGrid").jsGrid("option", "data");
-                                 
-                for (i = 0; i < gridData.length; i++) {                                		 
-                      if(value == gridData[i].ProductoId ){
-                      Mensaje = 'Ya seleccionaste ese producto '
-                        return false;
-                        
-                      }
-                  }
-                return true; 
-              
-              } }
-              },
-              { name: "Cantidad", title: "Cantidad", type: "number", width: 50, filtering: false,
-              validate: { message: "La cantidad debe ser mayor a 0", validator: function(value, item){ return value > 0;}},        
-              },
-              { name: "Precio", title: "Precio", type: "number", width: 50, filtering: false ,
-              validate: { message: "El Precio debe ser mayor a 0", validator: function(value){ return value > 0;}}
-              },
-              { name: "Total", title: "Total", width: 50, filtering: false, editable : false ,
-            //validate: { message: "El Total debe ser mayor a 0", validator: function(value){ return value;}}
-              },
-            { type: "control"}
-          ]
-          });
-      
-      });         
-      }          
+          fields: [
+            {name: "CotizacionDetId", title: "CotizacionDetId", visible : false},
+            {name: "CotizacionId", title: "CotizacionId", visible : false},
+            { name: "ProductoId", title: "Producto", type: "select", width: 100, items: countries, valueField: "ProductoId", textField: "ProductoConcat" ,
+            validate: { message: 'Ya seleccionaste ese producto', validator: function(value, item) { 
+            
+            if(value <= 0){
+            Mensaje = 'Favor de seleccionar un producto ;c';
+            return false;
+            }
+              var gridData = $("#jsGrid").jsGrid("option", "data");
+                             
+              for (i = 0; i < gridData.length; i++) {                                		 
+                    if(value == gridData[i].ProductoId ){
+                    Mensaje = 'Ya seleccionaste ese producto '
+                      return false;
+                      
+                    }
+                }
+              return true; 
+            
+            } }
+            },
+            { name: "Cantidad", title: "Cantidad", type: "number", width: 50, filtering: false,
+            validate: { message: "La cantidad debe ser mayor a 0", validator: function(value, item){ return value > 0;}},        
+            },
+            { name: "Precio", title: "Precio", type: "text", width: 50, filtering: false ,
+            validate: { message: "El Precio debe ser mayor a 0", validator: function(value){ return parseFloat(value) > 0;}}
+            },
+            { name: "Total", title: "Total", width: 50, filtering: false, editable : false ,
+          //validate: { message: "El Total debe ser mayor a 0", validator: function(value){ return value;}}
+            },
+          { type: "control"}
+        ]
+        });
+    
+    });         
+    }          
       //Cargamos el grid
-    LoadGridProductos();
+    
 
 //#endregion

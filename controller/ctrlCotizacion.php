@@ -38,7 +38,8 @@ switch($_GET["op"]){
         </button>
         <div class="dropdown-menu">
           <a class="dropdown-item btn btn-danger"  onClick="fnMostrarPDFCotizacion('.$row["CotizacionId"].');" id="'.$row["CotizacionId"].'" ><div>PDF <i class="fa fa-file-pdf-o"></i></div></a>
-          <a class="dropdown-item btn btn-warning" onClick="fnEliminarCotizacion('.$row["CotizacionId"].');" id="'.$row["CotizacionId"].'"><div>Eliminar Cotizacion <i class="fa fa-edit"></i></div></a>
+          <a class="dropdown-item btn btn-primary" onClick="fnEditarCotizacion('.$row["CotizacionId"].');" id="'.$row["CotizacionId"].'"><div>Editar Cotizacion <i class="fa fa-edit"></i></div></a>
+          <a class="dropdown-item btn btn-warning" onClick="fnEliminarCotizacion('.$row["CotizacionId"].');" id="'.$row["CotizacionId"].'"><div>Eliminar Cotizacion <i class="fa fa-trash"></i></div></a>
       </div>
         ';
         $DataTable[] = $sub_array;
@@ -76,6 +77,14 @@ switch($_GET["op"]){
             //da de baja la cotizacion
             case "EliminarCotizacion":
                 $Datos = $Cotizacion->EliminarCotizacion($_POST["CotizacionId"]);
+            break;
+            
+            //obtiene los datos de la cotizacion x id
+            case "LoadCotizacionXId":
+            $Datos = $Cotizacion->LoadCotizacionXId(107);
+            
+            header("Content-Type: application/json");
+            echo json_encode($Datos);
             break;
 }
 

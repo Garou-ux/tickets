@@ -51,9 +51,10 @@ class Cotizacion extends Conectar{
                 $Cantidad   = intval($row["Cantidad"]);
                 $Precio     = $row["Precio"];
                 $Total      = $row["Total"];
+                $Descripcion = $row["Descripcion"];
                 $q->bindParam(":CotizacionId",$CotizacionId);
                 $q->bindParam(":ProductoId",$ProductoId, PDO::PARAM_INT);
-                $q->bindParam(":Descripcion", $descri);
+                $q->bindParam(":Descripcion", $Descripcion);
                 $q->bindParam(":Cantidad", $Cantidad, PDO::PARAM_INT);
                 $q->bindParam(":Precio",  $Precio );
                 $q->bindParam(":Total", $Total);
@@ -183,6 +184,36 @@ public function SetCotiFactura($CotizacionId, $Factura){
            $stmt->execute();
            
            return $resultado = $this->ReporteCotizacion($CotizacionId);
+    }
+    
+    public function LoadDetCotiXId($CotizacionId){
+        $conectar = parent::Conexion();
+        parent::set_names();
+        $query2 = "call Cotizacion_ReporteCotizacionDet(?)";
+        $query2 = $conectar->prepare($query2);
+        $query2->bindParam(1,$CotizacionId);
+        $query2->execute();
+        return $query2->fetchAll();
+    }
+    
+    //obtiene los datos de la cotizacion x id
+    public function LoadCotizacionXId($CotizacionId){
+        $conectar = parent::Conexion();
+        parent::set_names();
+        $query = "call Cotizacion_ReporteCotizacion(?)";
+        $query = $conectar->prepare($query);
+        $query->bindParam(1,$CotizacionId);
+        $query->execute();
+        $cotiza = $query->fetchAll();
+       
+         //print_r($det);
+         $resultado = array(
+         "Cotizacion"    => $cotiza,
+         "CotizacionDet" =>  $this->LoadDetCotiXId($CotizacionId)
+         );
+         
+         return $resultado;
+        
     }
 }
 

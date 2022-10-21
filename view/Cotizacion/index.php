@@ -54,6 +54,7 @@
 					<div role="tabpanel" class="tab-pane fade in active" id="tabs-1-tab-1">
                     <div class="box-typical box-typical-padding">
 				<a id="BtnAddCotizacion" class="btn btn-inline btn-primary"  href="AddCotizacion.php?CotizacionId=0">Nueva Cotización</a>
+				<button  class = "btn btn-inline btn-info" title = "Muestra los codigos de colores del estatus de las facturas" type="button">?</button>
 				<table id="GridCotizaciones" class="table table-bordered table-striped table-vcenter js-dataTable-full">
 					<thead>
 						<tr>
