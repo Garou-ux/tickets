@@ -19,18 +19,23 @@ switch($_GET["op"]){
         $sub_array[] = $row["Total"];
           // si esta pagado muetra el span azul y sin la funcion
     if($row["factura"] > 0 && $row["pagado"] == 0){
-        $sub_array[] = '<span onClick="SetCotiPagado('.$row["CotizacionId"].');" id="'.$row["CotizacionId"].'"  class="label label-primary">'.$row["factura"].'</span>';
+        $sub_array[] = '<span onClick="SetCotiPagado('.$row["CotizacionId"].');" id="'.$row["CotizacionId"].'" title="Cotizacion Con Factura" class="label label-primary">'.$row["factura"].'</span>';
     }else if($row["factura"] == 0 && $row["pagado"] == 0){
-        $sub_array[] = '<span onClick="ModalCotiFactura('.$row["CotizacionId"].');" id="'.$row["CotizacionId"].'" class="label label-success">'.$row["factura"].'</span>';
+        $sub_array[] = '<span onClick="ModalCotiFactura('.$row["CotizacionId"].');" id="'.$row["CotizacionId"].'" title="Cotizacion Creada" class="label label-success">'.$row["factura"].'</span>';
     }
     if($row["pagado"] > 0 ){
         $sub_array[] = '<span  id="'.$row["CotizacionId"].'" title="Cotizacion Pagada"  class="label label-danger">'.$row["factura"].'</span>';
-    }
-    
-        // $sub_array[] = '<button onClick="fnMostrarPDFCotizacion('.$row["CotizacionId"].');" id="'.$row["CotizacionId"].'" class="btn btn-inline btn-danger btn-sm ladda-button" title="Imprime un pdf con la información de la cotización"><div><i class="fa fa-file-pdf-o"></i></div>';
-        
-        // $sub_array[] = '<button onClick="fnEditarCotizacion('.$row["CotizacionId"].');" id="'.$row["CotizacionId"].'" class="btn btn-inline btn-danger btn-sm ladda-button" title="Permite Editar la cotizacion"><div><i class="fa fa-edit"></div>';
-
+        $sub_array[] = '
+        <div class="btn-group">
+        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+          Acciones
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item btn btn-danger"  onClick="fnMostrarPDFCotizacion('.$row["CotizacionId"].');" id="'.$row["CotizacionId"].'" ><div>PDF <i class="fa fa-file-pdf-o"></i></div></a>
+          <a class="dropdown-item btn btn-warning" onClick="fnEliminarCotizacion('.$row["CotizacionId"].');" id="'.$row["CotizacionId"].'"><div>Eliminar Cotizacion <i class="fa fa-trash"></i></div></a>
+      </div>
+        ';
+    }else{
         $sub_array[] = '
         <div class="btn-group">
         <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -42,6 +47,24 @@ switch($_GET["op"]){
           <a class="dropdown-item btn btn-warning" onClick="fnEliminarCotizacion('.$row["CotizacionId"].');" id="'.$row["CotizacionId"].'"><div>Eliminar Cotizacion <i class="fa fa-trash"></i></div></a>
       </div>
         ';
+    
+    }
+    
+        // $sub_array[] = '<button onClick="fnMostrarPDFCotizacion('.$row["CotizacionId"].');" id="'.$row["CotizacionId"].'" class="btn btn-inline btn-danger btn-sm ladda-button" title="Imprime un pdf con la información de la cotización"><div><i class="fa fa-file-pdf-o"></i></div>';
+        
+        // $sub_array[] = '<button onClick="fnEditarCotizacion('.$row["CotizacionId"].');" id="'.$row["CotizacionId"].'" class="btn btn-inline btn-danger btn-sm ladda-button" title="Permite Editar la cotizacion"><div><i class="fa fa-edit"></div>';
+
+    //     $sub_array[] = '
+    //     <div class="btn-group">
+    //     <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+    //       Acciones
+    //     </button>
+    //     <div class="dropdown-menu">
+    //       <a class="dropdown-item btn btn-danger"  onClick="fnMostrarPDFCotizacion('.$row["CotizacionId"].');" id="'.$row["CotizacionId"].'" ><div>PDF <i class="fa fa-file-pdf-o"></i></div></a>
+    //       <a class="dropdown-item btn btn-primary" onClick="fnEditarCotizacion('.$row["CotizacionId"].');" id="'.$row["CotizacionId"].'"><div>Editar Cotizacion <i class="fa fa-edit"></i></div></a>
+    //       <a class="dropdown-item btn btn-warning" onClick="fnEliminarCotizacion('.$row["CotizacionId"].');" id="'.$row["CotizacionId"].'"><div>Eliminar Cotizacion <i class="fa fa-trash"></i></div></a>
+    //   </div>
+    //     ';
         $DataTable[] = $sub_array;
     //          <a class="dropdown-item btn btn-primary" onClick="fnEditarCotizacion('.$row["CotizacionId"].');" id="'.$row["CotizacionId"].'"><div>Editar Cotizacion <i class="fa fa-edit"></i></div></a>
 
