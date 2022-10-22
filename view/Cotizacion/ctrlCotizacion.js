@@ -294,7 +294,7 @@ $('#SpanTotal').text(TotalCot);
                 }).done(function(data, response){
                 
                    // data = JSON.parse(data);
-                    console.log(data);
+                    // console.log(data);
                     clientes.push(data);
                   ///console.log(data.CotizacionDet[0].Cantidad);
                   // for (let index = 0; index < data.CotizacionDet.length; index++) {
@@ -313,7 +313,7 @@ $('#SpanTotal').text(TotalCot);
                     
                   // }
                   
-                  console.log(clientes);
+                  // console.log(clientes);
                   });
             },
                 // loadData: function() {
