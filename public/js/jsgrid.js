@@ -307,6 +307,8 @@
                 case "noDataRowClass":
                 case "noDataContent":
                 case "selecting":
+                    this._refreshContent();
+                    break;
                 case "selectedRowClass":
                 case "oddRowClass":
                 case "evenRowClass":

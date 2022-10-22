@@ -203,7 +203,7 @@ public function SetCotiFactura($CotizacionId, $Factura){
     public function LoadDetCotiXId($CotizacionId){
         $conectar = parent::Conexion();
         parent::set_names();
-        $sql = "SELECT * FROM tblcotizaciondet WHERE CotizacionId = :CotizacionId";
+        $sql = "SELECT CotizacionDetId,CotizacionId,ProductoId,Descripcion,Cantidad,Precio,Total FROM tblcotizaciondet WHERE CotizacionId = :CotizacionId";
         $q = $this->db->prepare($sql);
         $q->bindParam(":CotizacionId", $CotizacionId);
         $q->execute();
@@ -233,5 +233,131 @@ public function SetCotiFactura($CotizacionId, $Factura){
          );       
           return $resultado; 
     }
+    
+       //esta funcion agrega/edita una cotizacion
+       public function EditarCotizacion($Maestro, $Detalle){
+        date_default_timezone_set('America/Monterrey');
+        $Bandera = false;
+        $Mensaje = '';
+        $Title   = '';
+        $Type    = 'error'; 
+        $conectar = parent::Conexion();
+        $resultado = null;
+        $CotId = 0;
+        $this->db->beginTransaction();
+        parent::set_names();
+        $FechaActual = date('Y/m/d h:i:s');
+        $MaestroArray = json_decode($Maestro, true);
+        $UpdateCotizacion = "UPDATE tblcotizacion 
+        SET 
+        ClienteId          = :ClienteId
+        ,SubTotal          = :SubTotal
+        ,IVA               = :IVA
+        ,Total             = :Total
+        ,Contacto          = :Contacto
+        ,updated_at        = :updated_at
+        WHERE CotizacionId = :CotizacionId";
+        $tblcotizacion = $this->db->prepare($UpdateCotizacion);
+        try{
+            $tblcotizacion->bindParam(":ClienteId", $MaestroArray[0]["ClienteId"],PDO::PARAM_INT);
+            $tblcotizacion->bindParam(":SubTotal", $MaestroArray[0]["SubTotal"]);
+            $tblcotizacion->bindParam(":IVA", $MaestroArray[0]["IVA"]);
+            $tblcotizacion->bindParam(":Total", $MaestroArray[0]["Total"]);
+            $tblcotizacion->bindParam(":Contacto", $MaestroArray[0]["Contacto"]);
+            $tblcotizacion->bindParam(":updated_at", $FechaActual);
+            $tblcotizacion->bindParam(':CotizacionId', $MaestroArray[0]["CotizacionId"]);
+            $tblcotizacion->execute();
+           // $CotizacionId = $this->db->lastInsertId();
+            $array = json_decode($Detalle, true);
+          //  print_r($array);
+            
+           // return 'dd';
+            foreach($array as $row){
+                $CotId = intval($row["CotizacionId"]);
+            if(intval($row["CotizacionDetId"])> 0){
+            $updateDet  = "UPDATE tblcotizaciondet
+            SET
+            ProductoId            = :ProductoId,
+            Descripcion           = :Descripcion,
+            Cantidad              = :Cantidad,
+            Precio                = :Precio,
+            Total                 = :Total,
+            updated_at            = :updated_at
+            WHERE CotizacionDetId = :CotizacionDetId
+            ";
+             $ProductoId = intval($row["ProductoId"]);
+             $Cantidad   = intval($row["Cantidad"]);
+             $Precio     = $row["Precio"];
+             $Total      = $row["Total"];
+             $Descripcion = $row["Descripcion"];
+             $CotizacionDetId = intval($row["CotizacionDetId"]);
+             $upd = $this->db->prepare($updateDet);
+             $upd->bindParam(":ProductoId",$ProductoId, PDO::PARAM_INT);
+             $upd->bindParam(":Descripcion",$Descripcion);
+             $upd->bindParam(":Cantidad",$Cantidad, PDO::PARAM_INT);
+             $upd->bindParam(":Precio",$Precio);
+             $upd->bindParam(":Total",$Total);
+             $upd->bindParam(":updated_at",$FechaActual);
+             $upd->bindParam(":CotizacionDetId",$CotizacionDetId);
+             $upd->execute();
+            }else{
+            
+                $sql = "INSERT INTO tblcotizaciondet (CotizacionId, ProductoId, Descripcion, Cantidad, Precio, Total) VALUES (:CotizacionId, :ProductoId, :Descripcion, :Cantidad, :Precio, :Total)";
+                $q = $this->db->prepare($sql);
+                $ProductoId = intval($row["ProductoId"]);
+                $Cantidad   = intval($row["Cantidad"]);
+                $Precio     = $row["Precio"];
+                $Total      = $row["Total"];
+                $Descripcion = $row["Descripcion"];
+                $q->bindParam(":CotizacionId",$CotId, PDO::PARAM_INT);
+                $q->bindParam(":ProductoId",$ProductoId, PDO::PARAM_INT);
+                $q->bindParam(":Descripcion", $Descripcion);
+                $q->bindParam(":Cantidad", $Cantidad, PDO::PARAM_INT);
+                $q->bindParam(":Precio",  $Precio );
+                $q->bindParam(":Total", $Total);
+                $q->execute();
+            ;
+            }
+            }
+            
+            //Se actualiza el correo del cliente
+            $UpdateCliente = "UPDATE tblusuarios SET Correo = :Correo WHERE UsuarioId = :UsuarioId";
+            $UsuarioId =  $MaestroArray[0]["ClienteId"];
+            $stmt =$this->db->prepare($UpdateCliente);
+            $stmt->bindParam(':Correo', $MaestroArray[0]["Correo"]);
+            $stmt->bindParam(':UsuarioId', $UsuarioId);
+            $stmt->execute();
+            
+            $this->db->commit();
+            $Mensaje = 'Se Guardo Correctamente el Movimiento';
+            $Bandera = 'true';
+            $Type    = 'success';
+            $Title   = 'Proceso Completado';
+          //  $resultado = $this->ReporteCotizacion($CotizacionId);
+          //print_r($this->ReporteCotizacion($CotizacionId));
+        }catch(\Exception $e){
+            $this->db->rollback();
+            $Mensaje = "Error al guardar movimiento". $e. " Intente de nuevo";
+            $Bandera = 'false';
+            $Type    = 'error';
+            $Title   = 'Error al guardar movimiento';
+            return array(
+                "Mensaje"=> $Mensaje,
+                'Bandera'=> $Bandera,
+                'Title'  => $Title,
+                'Type'      => $Type,
+                'CotizacionId' => $CotId
+                ); //$Detalle;
+        }
+        
+        return array(
+        "Mensaje"   => $Mensaje,
+        'Bandera'   => $Bandera,
+        'Title'     => $Title,
+        'Type'      => $Type,
+        'CotizacionId' => $CotId
+        ); //$Detalle;
+    // return $resultado = $query->fetchAll();
+    }
 }
-?>
+    ?>

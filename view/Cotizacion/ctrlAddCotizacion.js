@@ -248,6 +248,8 @@ $(() => {
     $('#BtnGuardaCotizacion').click(e => { 
     e.preventDefault();
     Spinner('ContentCotizacion', true);
+    console.log(clientes);
+    return;
       //Ahora obtenemos los datos en general (Maestro)
       let MaestroReporte ={};  
       MaestroReporte.CotizacionId = Number(CotizacionId);
