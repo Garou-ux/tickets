@@ -31,8 +31,7 @@ switch($_GET["op"]){
           Acciones
         </button>
         <div class="dropdown-menu">
-          <a class="dropdown-item btn btn-danger"  onClick="fnMostrarPDFCotizacion('.$row["CotizacionId"].');" id="'.$row["CotizacionId"].'" ><div>PDF <i class="fa fa-file-pdf-o"></i></div></a>
-          <a class="dropdown-item btn btn-warning" onClick="fnEliminarCotizacion('.$row["CotizacionId"].');" id="'.$row["CotizacionId"].'"><div>Eliminar Cotizacion <i class="fa fa-trash"></i></div></a>
+          <a class="dropdown-item btn btn-danger" title="Ver PDF"   onClick="fnMostrarPDFCotizacion('.$row["CotizacionId"].');" id="'.$row["CotizacionId"].'" ><div>PDF <i class="fa fa-file-pdf-o"></i></div></a>
       </div>
         ';
     }else{
@@ -42,9 +41,9 @@ switch($_GET["op"]){
           Acciones
         </button>
         <div class="dropdown-menu">
-          <a class="dropdown-item btn btn-danger"  onClick="fnMostrarPDFCotizacion('.$row["CotizacionId"].');" id="'.$row["CotizacionId"].'" ><div>PDF <i class="fa fa-file-pdf-o"></i></div></a>
-          <a class="dropdown-item btn btn-primary" onClick="fnEditarCotizacion('.$row["CotizacionId"].');" id="'.$row["CotizacionId"].'"><div>Editar Cotizacion <i class="fa fa-edit"></i></div></a>
-          <a class="dropdown-item btn btn-warning" onClick="fnEliminarCotizacion('.$row["CotizacionId"].');" id="'.$row["CotizacionId"].'"><div>Eliminar Cotizacion <i class="fa fa-trash"></i></div></a>
+          <a class="dropdown-item btn btn-danger" title="Ver PDF"  onClick="fnMostrarPDFCotizacion('.$row["CotizacionId"].');" id="'.$row["CotizacionId"].'" ><div>PDF <i class="fa fa-file-pdf-o"></i></div></a>
+          <a class="dropdown-item btn btn-primary" title="Edita la Cotizacion Seleccionada" onClick="fnEditarCotizacion('.$row["CotizacionId"].');" id="'.$row["CotizacionId"].'"><div>Editar Cotizacion <i class="fa fa-edit"></i></div></a>
+          <a class="dropdown-item btn btn-warning" title="Elimina la Cotizacion Seleccionada" onClick="fnEliminarCotizacion('.$row["CotizacionId"].');" id="'.$row["CotizacionId"].'"><div>Eliminar Cotizacion <i class="fa fa-trash"></i></div></a>
       </div>
         ';
     

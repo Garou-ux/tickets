@@ -463,11 +463,11 @@ $(() => {
       MaestroReporte.Total =parseFloat(MaestroReporte.Total);
       // totales 
       // //Ya con los datos listos, validamos que existan nulos
-      // if(MaestroReporte.Total == undefined || MaestroReporte.Total <=0 || isNaN(MaestroReporte.Total)){
-      //   swal('Capture los totales del reporte','','warning');
-      //   Spinner('myModal', false);
-      //   return;
-      // }
+      if(MaestroReporte.Total == undefined || MaestroReporte.Total <=0 || isNaN(MaestroReporte.Total)){
+        swal('Capture los totales del reporte','O da click en la tabla para calcularlos en automatico','warning');
+        Spinner('myModal', false);
+        return;
+      }
       //Datos
     //  console.log(MaestroReporte);
       
@@ -533,7 +533,8 @@ $(() => {
            // LoadGrid();
             Spinner('myModal', false);
             fnListaCotizaciones();
-            fnEditarCotizacion(data.CotizacionId);
+            $('#myModal').modal('hide');
+           // fnEditarCotizacion(data.CotizacionId);
           // //Obtenemos el pdf que se genera
           // //local
           // console.log(data.CotizacionId);
@@ -556,4 +557,4 @@ $(() => {
             });
             });
         
-            //#endregion
+              //#endregion
