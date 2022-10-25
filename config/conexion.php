@@ -6,12 +6,12 @@ class Conectar {
     protected function Conexion(){
         try{
                      //local
-          $conectar = $this ->db = 
+       //   $conectar = $this ->db = 
     //   new PDO("mysql:host=173.201.190.12;dbname=conectotaldb", "AlejandroIslas", "9425Dcfnp!!qal30");
-     new PDO("mysql:host=localhost;dbname=conectotaldb", "root", "Password1");
+   //  new PDO("mysql:host=localhost;dbname=conectotaldb", "root", "Password1");
 //server
-//$conectar = $this ->db = 
-  //new PDO("mysql:host=localhost;dbname=conectotaldb", "AlejandroIslas", "9425Dcfnp!!qal30");
+$conectar = $this ->db = 
+  new PDO("mysql:host=localhost;dbname=conectotaldb", "AlejandroIslas", "9425Dcfnp!!qal30");
 //?*&Tde!l~%;y
             return $conectar;
         }catch(Exception $e){
@@ -28,10 +28,10 @@ die();
 public static function ruta(){
 
     //server
- // return "http://ctnredes.com/";
+  return "http://ctnredes.com/";
     
     //local
-  return "http://localhost:8010/tickets/";
+ // return "http://localhost:8010/tickets/";
 }
 }
 ?>

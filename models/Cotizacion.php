@@ -300,6 +300,19 @@ public function SetCotiFactura($CotizacionId, $Factura){
              $upd->bindParam(":updated_at",$FechaActual);
              $upd->bindParam(":CotizacionDetId",$CotizacionDetId);
              $upd->execute();
+             
+              //ahora eliminamos los que se quitaron ;c
+            //   $updateBajaDet  = "UPDATE tblcotizaciondet
+            // SET
+            // Uso                   = :Uso,
+            // WHERE CotizacionDetId != :CotizacionDetId
+            // ";
+            //  $UsoDet = 0;
+            //  $updbaja = $this->db->prepare($updateBajaDet);
+            //  $updbaja->bindParam(":Uso",$UsoDet);
+            //  $updbaja->bindParam(":CotizacionDetId",$CotizacionDetId);
+            //  $updbaja->execute();
+             
             }else{
             
                 $sql = "INSERT INTO tblcotizaciondet (CotizacionId, ProductoId, Descripcion, Cantidad, Precio, Total) VALUES (:CotizacionId, :ProductoId, :Descripcion, :Cantidad, :Precio, :Total)";
@@ -318,6 +331,8 @@ public function SetCotiFactura($CotizacionId, $Factura){
                 $q->execute();
             ;
             }
+           
+            
             }
             
             //Se actualiza el correo del cliente

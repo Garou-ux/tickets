@@ -70,10 +70,10 @@ fnListaCotizaciones();
 function fnMostrarPDFCotizacion(Id){
 
   //local
- var _url = "http://localhost:8010/tickets/Reportes/ReporteCotizacion.php?CotizacionId="+Id+"";
+ //var _url = "http://localhost:8010/tickets/Reportes/ReporteCotizacion.php?CotizacionId="+Id+"";
   
   //server
- // var _url = "http://ctnredes.com/Reportes/ReporteCotizacion.php?CotizacionId="+Id+"";
+  var _url = "http://ctnredes.com/Reportes/ReporteCotizacion.php?CotizacionId="+Id+"";
   
   //Mandamos a imprimir el reporte
   printJS({ printable: _url, type: 'pdf', showModal: true });
@@ -304,11 +304,11 @@ $('#SpanTotal').text(TotalCot);
                         // });
                     },
                     deleteItem: function(item) {
-                        // return $.ajax({
-                        //     type: "DELETE",
-                        //     url: "http://localhost:8010/jsgridphp/clients/index.php",
-                        //     data: item
-                        // });
+                        return $.ajax({
+                            type: "POST",
+                            url: "http://localhost:8010/jsgridphp/clients/index.php",
+                            data: item
+                        });
                         // var clientIndex = $.inArray(item, clientes);
                         // clientes.splice(clientIndex, 1);
                         var datagrid = $("#jsGridEditarCotizacion").jsGrid("option", "data");
@@ -538,9 +538,9 @@ $(() => {
           // //Obtenemos el pdf que se genera
           // //local
           // console.log(data.CotizacionId);
-         var _url = "http://localhost:8010/tickets/Reportes/ReporteCotizacion.php?CotizacionId="+data.CotizacionId+"";     
+       //  var _url = "http://localhost:8010/tickets/Reportes/ReporteCotizacion.php?CotizacionId="+data.CotizacionId+"";     
           // //server
-        //  var _url = "http://ctnredes.com/Reportes/ReporteCotizacion.php?CotizacionId="+data.CotizacionId+"";     
+         var _url = "http://ctnredes.com/Reportes/ReporteCotizacion.php?CotizacionId="+data.CotizacionId+"";     
         // console.log(_url);
           // //Mandamos a imprimir el reporte
         printJS({ printable: _url, type: 'pdf', showModal: true });
