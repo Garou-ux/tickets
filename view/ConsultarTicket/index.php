@@ -71,14 +71,14 @@ Regresar
 <th class="d-none d-sm-table-cell" style="width: 2%;">Categoría</th>
 <th style="width: 1%;">Soporte</th>
 <th style="width: 1%;"># Factura</th>
-<th class="text-center" style="width: 1%;">Responder Ticket</th>
+<th class="text-center" style="width: 1%;">Acciones</th>
 <!-- solo los soporte tienen acceso a esta opcion -->
-<?php if ($_SESSION["RolId"]==1){
+  <?php //if ($_SESSION["RolId"]==1){
 	?>
-	<th class="text-center" style="width: 2%;">Reporte de Servicio</th>
+	<!-- <th class="text-center" style="width: 2%;">Reporte de Servicio</th> -->
 	<!-- Eliminar ticket -->
-	<th class="text-center" style="width: 2%">Eliminar Ticket</th>
-	<?php } ?>
+	<!-- <th class="text-center" style="width: 2%">Eliminar Ticket</th> -->
+	<?php /*} */ ?>  
 </tr>
 </thead>
 <tbody>

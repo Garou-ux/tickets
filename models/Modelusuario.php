@@ -35,6 +35,21 @@ class Usuario extends Conectar{
         }
     }
 
+    public function LoadDetCotiXId($CotizacionId){
+        $conectar = parent::Conexion();
+        parent::set_names();
+        $sql = "SELECT CotizacionDetId,CotizacionId,ProductoId,Descripcion,Cantidad,Precio,Total FROM tblcotizaciondet WHERE CotizacionId = :CotizacionId";
+        $q = $this->db->prepare($sql);
+        $q->bindParam(":CotizacionId", $CotizacionId);
+        $q->execute();
+        $rows = $q->fetchAll();
+
+        $result = array();
+        foreach($rows as $row) {
+            array_push($result, $this->readDetalle($row));
+        }
+        return $result;
+    }
 
     public function ListaUsuarios(){
         $conectar = parent::Conexion();

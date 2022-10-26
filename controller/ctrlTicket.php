@@ -58,21 +58,52 @@
     $sub_array[] = '<span class="label label-info">'.$row["UsuarioSoporte"].'</span>';
     // si esta pagado muetra el span azul y sin la funcion
     if($row["Pagado"] == 1){
-        $sub_array[] = '<span id="'.$row["TicketId"].'" title="Ticket Pagado" class="label label-primary">'.$row["Factura"].'</span>';
+        $sub_array[] = '<span id="'.$row["TicketId"].'" title="Ticket Pagado" class="label label-danger">'.$row["Factura"].'</span>';
     }else{
         $sub_array[] = '<span onClick="SetTicketPagado('.$row["TicketId"].');" id="'.$row["TicketId"].'" class="label label-success">'.$row["Factura"].'</span>';
     }
-    $sub_array[] = '<button onClick="fnVerTicket('.$row["TicketId"].');" id="'.$row["TicketId"].'" class="btn btn-outline-primary btn-icon" title="Permite mostrar las respuestas y detalle del ticket"><div><i class="fa fa-edit"></div>';
-
-    if($row["TieneServicio"] == 1){
-        $sub_array[] = '<button onClick="fnReporteServicio('.$row["TicketId"].');" id="'.$row["TicketId"].'" class="btn btn-rounded btn-inline btn-secondary" title="Permite generar un reporte del servicio" disabled><div><i class="fa fa-plus"></div>';
-
+    
+    
+    //Acciones
+    if ($_SESSION["RolId"]==1){
+    if($row["TieneServicio"] != 1){
+        $sub_array[] = '
+        <div class="btn-group">
+        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+          Acciones
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item btn btn-primary" title="Permite mostrar las respuestas y detalle del ticket"  onClick="fnVerTicket('.$row["TicketId"].');" id="'.$row["TicketId"].'" ><div>Responder Ticket<i class="fa fa-edit"></i></div></a>
+          <a class="dropdown-item btn btn-secondary" title="Permite generar un reporte del servicio" onClick="fnReporteServicio('.$row["TicketId"].');" id="'.$row["TicketId"].'" ><div>Reporte de Servicio<i class="fa fa-plus"></i></div></a>
+          <a class="dropdown-item btn btn-danger" title="Elimina la Cotizacion Seleccionada" onClick="fnEliminarTicket('.$row["TicketId"].');" id="'.$row["TicketId"].'"><div>Eliminar Ticket <i class="fa fa-trash"></i></div></a>
+      </div>
+        ';
     }else{
-        $sub_array[] = '<button onClick="fnReporteServicio('.$row["TicketId"].');" id="'.$row["TicketId"].'" class="btn btn-rounded btn-inline btn-secondary" title="Permite generar un reporte del servicio"><div><i class="fa fa-plus"></div>';
-
+        $sub_array[] = '
+        <div class="btn-group">
+        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+          Acciones
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item btn btn-primary" title="Permite mostrar las respuestas y detalle del ticket"  onClick="fnVerTicket('.$row["TicketId"].');" id="'.$row["TicketId"].'" ><div>Responder Ticket<i class="fa fa-edit"></i></div></a>
+          <a class="dropdown-item btn btn-danger" title="Elimina la Cotizacion Seleccionada" onClick="fnEliminarTicket('.$row["TicketId"].');" id="'.$row["TicketId"].'"><div>Eliminar Ticket <i class="fa fa-trash"></i></div></a>
+      </div>
+        ';
     }
-    //columna cancelar ticket
-    $sub_array[] = '<button onClick="fnEliminarTicket('.$row["TicketId"].');" id="'.$row["TicketId"].'" class="btn btn-rounded btn-inline btn-danger" title="Elimina el Ticket"><div><i class="fa fa-trash"></div>';
+    }else if( $_SESSION["RolId"]==2){
+    // a los cerrados pues ya no se contestan
+    if($row["EstatusId"] != 3){
+        $sub_array[] = '
+        <div class="btn-group">
+        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+          Acciones
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item btn btn-primary" title="Permite mostrar las respuestas y detalle del ticket"  onClick="fnVerTicket('.$row["TicketId"].');" id="'.$row["TicketId"].'" ><div>Responder Ticket <i class="fa fa-edit"></i></div></a>
+      </div>
+        ';
+    }
+    }
     $DataTable[] = $sub_array;
 
     }

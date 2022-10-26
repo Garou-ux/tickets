@@ -802,10 +802,10 @@ function(data){
 
 //Obtenemos el pdf que se genera
 //local
-//var _url = "http://localhost/TICKETSV1/Reportes/ReporteServicio.php?ReporteServicioId="+data.ReporteServicioId+"";
+var _url = "http://localhost:8010/tickets/Reportes/ReporteServicio.php?ReporteServicioId="+data.ReporteServicioId+"";
 
 //server
- var _url = "http://ctnredes.com/Reportes/ReporteServicio.php?ReporteServicioId="+data.ReporteServicioId+"";
+ //var _url = "http://ctnredes.com/Reportes/ReporteServicio.php?ReporteServicioId="+data.ReporteServicioId+"";
 
 
 // console.log(_url);
