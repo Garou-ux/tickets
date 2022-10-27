@@ -89,10 +89,10 @@ function fnListaTicketsFacturacion(){
 function fnMostrarPDFFactura(Id){
 
   //local
-   var _url = "http://localhost:8010/tickets/Reportes/ReporteServicio.php?ReporteServicioId="+Id+"";
+ //  var _url = "http://localhost:8010/tickets/Reportes/ReporteServicio.php?ReporteServicioId="+Id+"";
 
     //server
-  // var _url = "http://ctnredes.com/Reportes/ReporteServicio.php?ReporteServicioId="+Id+"";
+  var _url = "http://ctnredes.com/Reportes/ReporteServicio.php?ReporteServicioId="+Id+"";
     
     
     // console.log(_url);

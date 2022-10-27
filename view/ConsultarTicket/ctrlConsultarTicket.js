@@ -130,105 +130,205 @@ $(document).ready(function(){
             });
         });
 
-               //#region funcion para visualizar el detalle de un ticket
-          function fnVerTicket(TicketId){
-              //Mostramos la informacion del ticket seleccionado
-            $('#myModalResponderTicket').modal('show');
-          MaestroTicketId = TicketId;//le damos valor a esta variable que se usara globalmente en varias funciones
-          //llamamos al servicio para llenar el encabezado
-          $.post("../../controller/ctrlTicket.php?op=GetTicketXId",
-          {TicketId: TicketId}, function(data){
-              data = JSON.parse(data);//parseamos a objeto json los valores de la bd
-              // console.log(data.Estatus);
-               //Asignamos los valores a los campos
-              $('#NoTicket').html('Ticket # ' + data.TicketId);
-              $('#SpanEstatusTicket').html(data.Estatus);
-              $('#SpanNombreUsuario').html(data.Nombre);
-              $('#SpanFechaCreacion').html(data.FechaCreado);
-              $.post("../../controller/ctrlTicket.php?op=GetAllDataTicketXId",
-              {TicketId: TicketId }, function(dataa){
-              dataa = JSON.parse(dataa);
-                $('#SpanSolicitante').html(dataa[0].NombreSolicitante);
-              });
-              $('#DataCategoria').val(data.Categoria);
-              $('#DataTitulo').val(data.Titulo);
-              TicketEstatus = data.TicketEstatus;
-              $('#DataDescripcion').summernote('code',data.Descripcion,{
-                  toolbar: [
+          //      //#region funcion para visualizar el detalle de un ticket
+          // function fnVerTicket(TicketId){
+          //     //Mostramos la informacion del ticket seleccionado
+          //   $('#myModalResponderTicket').modal('show');
+          // MaestroTicketId = TicketId;//le damos valor a esta variable que se usara globalmente en varias funciones
+          // //llamamos al servicio para llenar el encabezado
+          // $.post("../../controller/ctrlTicket.php?op=GetTicketXId",
+          // {TicketId: TicketId}, function(data){
+          //     data = JSON.parse(data);//parseamos a objeto json los valores de la bd
+          //     // console.log(data.Estatus);
+          //      //Asignamos los valores a los campos
+          //     $('#NoTicket').html('Ticket # ' + data.TicketId);
+          //     $('#SpanEstatusTicket').html(data.Estatus);
+          //     $('#SpanNombreUsuario').html(data.Nombre);
+          //     $('#SpanFechaCreacion').html(data.FechaCreado);
+          //     $.post("../../controller/ctrlTicket.php?op=GetAllDataTicketXId",
+          //     {TicketId: TicketId }, function(dataa){
+          //     dataa = JSON.parse(dataa);
+          //       $('#SpanSolicitante').html(dataa[0].NombreSolicitante);
+          //     });
+          //     $('#DataCategoria').val(data.Categoria);
+          //     $('#DataTitulo').val(data.Titulo);
+          //     TicketEstatus = data.TicketEstatus;
+          //     $('#DataDescripcion').summernote('code',data.Descripcion,{
+          //         toolbar: [
           
-                      ['style', ['bold', 'italic', 'underline', 'clear']],
-                      ['font', ['strikethrough', 'superscript', 'subscript']],
-                      ['fontsize', ['fontsize']],
-                      ['color', ['color']],
-                      ['para', ['ul', 'ol', 'paragraph']],
-                      ['height', ['height']],
-                      ['insert', ['picture']]
-                    ],
-                  //   popover:{
-                  //     image:[],
-                  //     link:[],
-                  //     air:[]
-                  // },
-              });
+          //             ['style', ['bold', 'italic', 'underline', 'clear']],
+          //             ['font', ['strikethrough', 'superscript', 'subscript']],
+          //             ['fontsize', ['fontsize']],
+          //             ['color', ['color']],
+          //             ['para', ['ul', 'ol', 'paragraph']],
+          //             ['height', ['height']],
+          //             ['insert', ['picture']]
+          //           ],
+          //         //   popover:{
+          //         //     image:[],
+          //         //     link:[],
+          //         //     air:[]
+          //         // },
+          //     });
           
-              // console.log(TicketEstatus);
-              //Si el ticket esta cerrado, deshabilitamos los botones y el summernote para responder
-              if(TicketEstatus == "Cerrado"){
-                  $("#BtnAddTicketRespuesta").attr("disabled", true);
-                  $("#BtnCerrarTicket").attr("disabled", true);
-                  $('#Respuesta').summernote('disable',{
-                      popover:{
-                          image:[],
-                          link:[],
-                          air:[]
-                                        },
-                  });
-                  $("#RowRespuesta").hide(); //Ocultamos la vista donde se actualiza el ticket
-              }
-              if(TicketEstatus == "Abierto"){
-                  $("#BtnAddTicketRespuesta").attr("disabled", false);
-                  $("#BtnCerrarTicket").attr("disabled", false);
-                  $('#Respuesta').summernote('enable',{
-                      popover:{
-                          image:[],
-                          link:[],
-                          air:[]
-                                        },
-                  });
-                  $("#RowRespuesta").show();
-              }
-          });
-              //Llamamos al servicio para llenar los datos del detalle
-              $.post("../../controller/ctrlTicket.php?op=GetTicketDetXId",
-              {TicketId : TicketId}, function(data){
-          // console.log(data);
-          //Se cargan los datos en el div
-          $('#DetalleTicket').html(data);
-          });
+          //     // console.log(TicketEstatus);
+          //     //Si el ticket esta cerrado, deshabilitamos los botones y el summernote para responder
+          //     if(TicketEstatus == "Cerrado"){
+          //         $("#BtnAddTicketRespuesta").attr("disabled", true);
+          //         $("#BtnCerrarTicket").attr("disabled", true);
+          //         $('#Respuesta').summernote('disable',{
+          //             popover:{
+          //                 image:[],
+          //                 link:[],
+          //                 air:[]
+          //                               },
+          //         });
+          //         $("#RowRespuesta").hide(); //Ocultamos la vista donde se actualiza el ticket
+          //     }
+          //     if(TicketEstatus == "Abierto"){
+          //         $("#BtnAddTicketRespuesta").attr("disabled", false);
+          //         $("#BtnCerrarTicket").attr("disabled", false);
+          //         $('#Respuesta').summernote('enable',{
+          //             popover:{
+          //                 image:[],
+          //                 link:[],
+          //                 air:[]
+          //                               },
+          //         });
+          //         $("#RowRespuesta").show();
+          //     }
+          // });
+          //     //Llamamos al servicio para llenar los datos del detalle
+          //     $.post("../../controller/ctrlTicket.php?op=GetTicketDetXId",
+          //     {TicketId : TicketId}, function(data){
+          // // console.log(data);
+          // //Se cargan los datos en el div
+          // $('#DetalleTicket').html(data);
+          // });
           
-          //Se configura el summernote donde se muestra la descripcion del ticket
-          $('#DataDescripcion').summernote('disable',{
-              toolbar: [
-                  // [groupName, [list of button]]
-                  ['style', ['bold', 'italic', 'underline', 'clear']],
-                  ['font', ['strikethrough', 'superscript', 'subscript']],
-                  ['fontsize', ['fontsize']],
-                  ['color', ['color']],
-                  ['para', ['ul', 'ol', 'paragraph']],
-                  ['height', ['height']],
-                  ['insert', ['picture']]
-                ],
-                popover:{
-                  image:[],
-                  link:[],
-                  air:[]
-                                },
-          height:200,
-          lang:'es-ES',
-          });
-          }
-          //#endregion
+          // //Se configura el summernote donde se muestra la descripcion del ticket
+          // $('#DataDescripcion').summernote('disable',{
+          //     toolbar: [
+          //         // [groupName, [list of button]]
+          //         ['style', ['bold', 'italic', 'underline', 'clear']],
+          //         ['font', ['strikethrough', 'superscript', 'subscript']],
+          //         ['fontsize', ['fontsize']],
+          //         ['color', ['color']],
+          //         ['para', ['ul', 'ol', 'paragraph']],
+          //         ['height', ['height']],
+          //         ['insert', ['picture']]
+          //       ],
+          //       popover:{
+          //         image:[],
+          //         link:[],
+          //         air:[]
+          //                       },
+          // height:200,
+          // lang:'es-ES',
+          // });
+          // }
+          // //#endregion
+     //#region funcion para visualizar el detalle de un ticket
+function fnVerTicket(TicketId){
+  //Mostramos la informacion del ticket seleccionado
+  $("#TabDetalleTicket").show(); //Mostramos el div que contiene el detalle
+  $("#TabGeneral").hide(); //Ocultamos el tabgeneral
+  $("#BotonRegresar").show(); //Mostramos el boton de regresar
+  $("#TabReporteServicio").hide();//Ocultamos el tab de reporte de servicio
+MaestroTicketId = TicketId;//le damos valor a esta variable que se usara globalmente en varias funciones
+//llamamos al servicio para llenar el encabezado
+$.post("../../controller/ctrlTicket.php?op=GetTicketXId",
+{TicketId: TicketId}, function(data){
+  data = JSON.parse(data);//parseamos a objeto json los valores de la bd
+  // console.log(data.Estatus);
+   //Asignamos los valores a los campos
+  $('#NoTicket').html('Ticket # ' + data.TicketId);
+  $('#SpanEstatusTicket').html(data.Estatus);
+  $('#SpanNombreUsuario').html(data.Nombre);
+  $('#SpanFechaCreacion').html(data.FechaCreado);
+  $.post("../../controller/ctrlTicket.php?op=GetAllDataTicketXId",
+  {TicketId: TicketId }, function(dataa){
+  dataa = JSON.parse(dataa);
+    $('#SpanSolicitante').html(dataa[0].NombreSolicitante);
+  });
+  $('#DataCategoria').val(data.Categoria);
+  $('#DataTitulo').val(data.Titulo);
+  TicketEstatus = data.TicketEstatus;
+  $('#DataDescripcion').summernote('code',data.Descripcion,{
+      toolbar: [
 
+          ['style', ['bold', 'italic', 'underline', 'clear']],
+          ['font', ['strikethrough', 'superscript', 'subscript']],
+          ['fontsize', ['fontsize']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['height', ['height']],
+          ['insert', ['picture']]
+        ],
+        popover:{
+          image:[],
+          link:[],
+          air:[]
+      },
+  });
+
+  // console.log(TicketEstatus);
+  //Si el ticket esta cerrado, deshabilitamos los botones y el summernote para responder
+  if(TicketEstatus == "Cerrado"){
+      $("#BtnAddTicketRespuesta").attr("disabled", true);
+      $("#BtnCerrarTicket").attr("disabled", true);
+      $('#Respuesta').summernote('disable',{
+          popover:{
+              image:[],
+              link:[],
+              air:[]
+                            },
+      });
+      $("#RowRespuesta").hide(); //Ocultamos la vista donde se actualiza el ticket
+  }
+  if(TicketEstatus == "Abierto"){
+      $("#BtnAddTicketRespuesta").attr("disabled", false);
+      $("#BtnCerrarTicket").attr("disabled", false);
+      $('#Respuesta').summernote('enable',{
+          popover:{
+              image:[],
+              link:[],
+              air:[]
+                            },
+      });
+      $("#RowRespuesta").show();
+  }
+});
+  //Llamamos al servicio para llenar los datos del detalle
+  $.post("../../controller/ctrlTicket.php?op=GetTicketDetXId",
+  {TicketId : TicketId}, function(data){
+// console.log(data);
+//Se cargan los datos en el div
+$('#DetalleTicket').html(data);
+});
+
+//Se configura el summernote donde se muestra la descripcion del ticket
+$('#DataDescripcion').summernote('disable',{
+  toolbar: [
+      // [groupName, [list of button]]
+      ['style', ['bold', 'italic', 'underline', 'clear']],
+      ['font', ['strikethrough', 'superscript', 'subscript']],
+      ['fontsize', ['fontsize']],
+      ['color', ['color']],
+      ['para', ['ul', 'ol', 'paragraph']],
+      ['height', ['height']],
+      ['insert', ['picture']]
+    ],
+    popover:{
+      image:[],
+      link:[],
+      air:[]
+                    },
+height:200,
+lang:'es-ES',
+});
+}
+//#endregion
 
         //#region funcion para ocultar el tab de respuesta del ticket y mostrar el tab general
         function fnOcultarTabDetalle(){
@@ -451,9 +551,9 @@ $(document).ready(function(){
                             CargarListaTickets();
                            //Obtenemos el pdf que se genera
                            //local
-                           var _url = "http://localhost:8010/tickets/Reportes/ReporteServicio.php?ReporteServicioId="+data.ReporteServicioId+"";
+                          // var _url = "http://localhost:8010/tickets/Reportes/ReporteServicio.php?ReporteServicioId="+data.ReporteServicioId+"";
                           //server
-                          //var _url = "http://ctnredes.com/Reportes/ReporteServicio.php?ReporteServicioId="+data.ReporteServicioId+"";
+                          var _url = "http://ctnredes.com/Reportes/ReporteServicio.php?ReporteServicioId="+data.ReporteServicioId+"";
                          // console.log(_url);
                          //Mandamos a imprimir el reporte
                          printJS({ printable: _url, type: 'pdf', showModal: true })
