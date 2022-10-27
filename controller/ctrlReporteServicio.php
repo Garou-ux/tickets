@@ -8,16 +8,16 @@
 
         //Manda los parametros al modelo para agregar un nuevo reporte
         case "AddReporteServicio":
-$Datos = $ReporteServicio->AddReporteServicio($_POST["Maestro"],$_POST["MaestroServicios"],$_POST["MaestroMateriales"]);
-
- //Obtenemos el ReporteServicioId
- if(is_array($Datos)==true and count($Datos)>0){
-    foreach($Datos as $row)
-    {
-        $output["ReporteServicioId"] = $row["ReporteServicioId"];
-    }
-    echo json_encode($output);
-}
+               $Datos = $ReporteServicio->AddReporteServicio($_POST["Maestro"],$_POST["Detalle"]);
+                echo json_encode($Datos);
+//  //Obtenemos el ReporteServicioId
+//  if(is_array($Datos)==true and count($Datos)>0){
+//     foreach($Datos as $row)
+//     {
+//         $output["ReporteServicioId"] = $row["ReporteServicioId"];
+//     }
+//     echo json_encode($output);
+// }
             break;
 
             //Obtiene el encabezado de un reporte de servicio x id

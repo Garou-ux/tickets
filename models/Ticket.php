@@ -134,6 +134,16 @@ public function GetAllDataTicketXId($TicketId){
     $sql->execute();
     return $resultado = $sql->fetchAll();
 }
+
+        public function GetDataReporteServicio($TicketId){
+            $conectar = parent::Conexion();
+            parent::set_names();
+            $sql = "call Tickets_GetDataReporteServicio(?)";
+            $sql = $conectar->prepare($sql);
+            $sql ->bindParam(1,$TicketId);
+            $sql->execute();
+            return $resultado = $sql->fetchAll();
+        }
 }
 ?>
 

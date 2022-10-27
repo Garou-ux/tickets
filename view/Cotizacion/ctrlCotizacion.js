@@ -304,11 +304,11 @@ $('#SpanTotal').text(TotalCot);
                         // });
                     },
                     deleteItem: function(item) {
-                        return $.ajax({
-                            type: "POST",
-                            url: "http://localhost:8010/jsgridphp/clients/index.php",
-                            data: item
-                        });
+                        // return $.ajax({
+                        //     type: "POST",
+                        //     url: "http://localhost:8010/jsgridphp/clients/index.php",
+                        //     data: item
+                        // });
                         // var clientIndex = $.inArray(item, clientes);
                         // clientes.splice(clientIndex, 1);
                         var datagrid = $("#jsGridEditarCotizacion").jsGrid("option", "data");

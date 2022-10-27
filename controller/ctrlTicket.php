@@ -236,6 +236,11 @@ case "GetAllDataTicketXId":
     $Datos = $Ticket->GetAllDataTicketXId($_POST["TicketId"]);
     echo json_encode($Datos);
 break;
+
+        case "GetDataReporteServicio":
+        $Datos = $Ticket->GetDataReporteServicio($_POST["TicketId"]);
+        echo json_encode($Datos);
+        break;
     }
 
 
