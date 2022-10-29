@@ -6,6 +6,9 @@
 <html>
     <?php require_once("../MainHead/head.php");?>
 	<title>ConecTotal</title>
+	<style>
+td { font-size: 13px; }
+	</style>
 </head>
 <body class="with-side-menu">
 

@@ -22,10 +22,10 @@
 				<div class="tbl">
 					<div class="tbl-row">
 						<div class="tbl-cell">
-							<h3>Pagos</h3>
+							<h3>Control de Pagos</h3>
 							<ol class="breadcrumb breadcrumb-simple">
 								<li><a href="#">Home</a></li>
-								<li class="active">Lista de Pagos</li>
+								<li class="active">Lista De Pagos</li>
 							</ol>
 						</div>
 					</div>

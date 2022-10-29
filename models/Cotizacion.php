@@ -165,23 +165,23 @@ return $resultado = $query->fetchAll();
 public function SetCotiFactura($CotizacionId, $Factura){
     $conectar         = parent::Conexion();
     parent::set_names();
-    $query            = "call Cotizacion_SetCotiFactura(?,?)";
-    $query            = $conectar->prepare($query);
-    $query->bindParam(1,$CotizacionId);
-    $query->bindParam(2,$Factura);
-    $query->execute();
-    return $resultado = $query->fetchAll();
+    $UpdateCliente = "UPDATE tblcotizacion SET factura = :factura WHERE CotizacionId = :CotizacionId";
+    $stmt =$this->db->prepare($UpdateCliente);
+    $stmt->bindParam(':factura', $Factura);
+    $stmt->bindParam(':CotizacionId', $CotizacionId);
+    $stmt->execute();
 
 }
     //setea la cotizacion a pagada
     public function SetCotiPagado($CotizacionId){
-    $conectar = parent::Conexion();
-    parent::set_names();
-    $query = "call Cotizacion_SetCotiPagado(?)";
-    $query = $conectar->prepare($query);
-    $query->bindParam(1,$CotizacionId);
-    $query->execute();
-    return $resultado = $query->fetchAll();
+        $conectar         = parent::Conexion();
+        parent::set_names();
+        $UpdateCliente = "UPDATE tblcotizacion SET pagado = :pagado WHERE CotizacionId = :CotizacionId";
+        $Pagado  = 1;
+        $stmt =$this->db->prepare($UpdateCliente);
+        $stmt->bindParam(':pagado', $Pagado);
+        $stmt->bindParam(':CotizacionId', $CotizacionId);
+        $stmt->execute();
     
     }
     
