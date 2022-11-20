@@ -1,15 +1,13 @@
 <?php
 
-class tblcotizaciondet {
-    public $CotizacionDetId;
-    public $CotizacionId;
-    public $ProductoId;
-    public $Descripcion;
-    public $Cantidad;
-    public $Precio;
-    public $Total;
-    public $created_at;
-    public $updated_at;
+class TblPagos {
+    public $PagoId; //int
+    public $UsuarioId; //int
+    public $Factura; //int
+    public $Total; //decimal(12,2)
+    public $Activo; //int
+    public $created_at; //timestamp
+    public $updated_at; //timestamp
 }
 
 ?>

@@ -33,7 +33,7 @@
 			</header>
 
 			<div class="box-typical box-typical-padding">
-				<button type="button" id="BtnModalCategorias" class="btn btn-inline btn-primary">Nuevo Pago</button>
+				<button type="button" id="BtnModalCategorias" onclick="OpenModalPagos()" class="btn btn-inline btn-primary">Nuevo Pago</button>
 				<table id="GridCategorias" class="table table-bordered table-striped table-vcenter js-dataTable-full">
 					<thead>
 						<tr>
