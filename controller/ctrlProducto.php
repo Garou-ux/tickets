@@ -70,6 +70,7 @@ $Datos = $Producto->ListProducto(0);
                         $DataTable = Array();
                         foreach ($Datos as $row){
                         $sub_array = array();
+                        var_dump($row);
                         $sub_array[] = $row["ProductoId"];
                         $sub_array[] = $row["Clave"];
                         $sub_array[] = $row["ProductoConcat"];

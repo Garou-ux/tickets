@@ -4,10 +4,10 @@
 
 function CargarListaTickets (){
   //llenamos el datatable llamando al servicio que retorna los datos
-  tabla=$('#GridTickets').dataTable({
+  tabla=$('#GridCategorias').dataTable({
       "aProcessing": true,
       "aServerSide": true,
-      order: [[0, 'desc']], 
+      order: [[0, 'desc']],
       dom: 'Bfrtip',
       "searching": true,
       lengthChange: false,
@@ -16,10 +16,10 @@ function CargarListaTickets (){
               'excelHtml5'
               ],
       "ajax":{
-          url: '../../controller/ctrlTicket.php?op=ListTicketUsuario',
+          url: '../../controller/ctrlPagos.php?op=ListaPagos',
           type : "post",
           dataType : "json",
-          data:{ UsuarioId : UsuarioId},
+          //data:{ UsuarioId : 1},
           error: function(e){
               console.log(e.responseText);
               alert(e.responseText);
@@ -62,7 +62,19 @@ function CargarListaTickets (){
 
 $(document).ready(function(){
 
+    CargarListaTickets();
     // swal("Sitio en Mantenimiento", {
     //     icon: "warning",
     //   });
 });
+
+
+
+//funcion para abrir el modal de pagos
+function OpenModalPagos(){
+
+    $('#ModalPagos').modal('show');
+
+    $('#SelectPagos').html(data.empleados);
+
+}

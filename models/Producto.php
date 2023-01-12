@@ -1,13 +1,20 @@
 <?php 
 
-include "ProductoModel.php";
+include "ModelProductos.php";
 class Producto extends Conectar{
 
-
-    private function read($row) {
-        $result = new ProductoModel();
-        $result->ProductoId = $row["ProductoId"];
-        $result->ProductoConcat = $row["ProductoConcat"];
+        
+    private function ReadProductos($row) {
+        $result                  = new tblproductos();
+        $result->ProductoId      =  $row["ProductoId"];
+        $result->ProductoConcat  =  $row["ProductoConcat"];
+        $result->Clave           =  $row["Clave"];
+        $result->ClaveSat        =  $row["ClaveSat"];
+        $result->Cateogria       =  $row["Categoria"];
+        $result->ProdCategoriaId =  $row["ProdCategoriaId"];
+        $result->FechaCreado     =  $row["FechaCreado"];
+        $result->EsServicio      =  $row["EsServicio"];
+        $result->Uso             =  $row["Uso"];
         return $result;
     }
 
@@ -32,12 +39,29 @@ class Producto extends Conectar{
 //Esta funcion obtiene la lista de los productos
 public function ListProducto($Caso = 0){
     $conectar = parent::Conexion();
+    $Caso = 1 ? $Caso = 0 : $Caso = 1;
+    // echo $Caso;
+    // return;
     parent::set_names();
-    $query = "call Producto_ListProducto(?)";
-    $query = $conectar->prepare($query);
-    $query ->bindParam(1,$Caso);
-    $query->execute();
-    return $resultado = $query->fetchAll();
+    $QueryProductos = "SELECT p.ProductoId, p.Clave, p.ProdCategoriaId,
+    p.FechaCreado,
+    p.EsServicio,
+    p.Uso,
+    p.Descripcion, p.ClaveSat, concat(p.Clave, '| ', p.Descripcion) ProductoConcat ,cat.Categoria 
+    FROM tblproductos p INNER JOIN tblproductocategoria cat ON cat.ProdCategoriaId = p.ProdCategoriaId 
+    WHERE  EsServicio = :EsServicio";
+    $Uso = 1;
+    $q = $conectar->prepare($QueryProductos);
+    // $q ->bindParam(":Uso",$Uso);
+    $q ->bindParam(":EsServicio",$Caso);
+    $q->execute();
+    $rows = $q->fetchAll();
+    $result = array();
+
+    foreach ($rows as $row) {
+        array_push($result, $this->ReadProductos($row));
+    }
+    return $result;
 }
 
 //Esta funcion obtiene los datos de un producto x id
