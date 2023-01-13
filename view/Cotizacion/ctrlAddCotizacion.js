@@ -485,10 +485,25 @@ $(() => {
             MontosRenglon(clientes);
           }
       },
+
+    //   rowRenderer: function(item) {
+    //     var user = item;
+    //     console.log(item);
+    //     var $photo = $("<div>").addClass("client-photo").append($("<img>").attr("src", user.picture.large));
+    //     var $info = $("<div>").addClass("client-info")
+    //         .append($("<p>").append($("<strong>").text(user.name.first.capitalize() + " " + user.name.last.capitalize())))
+    //         .append($("<p>").text("Location: " + user.location.city.capitalize() + ", " + user.location.street))
+    //         .append($("<p>").text("Email: " + user.email))
+    //         .append($("<p>").text("Phone: " + user.phone))
+    //         .append($("<p>").text("Cell: " + user.cell));
+
+    //     return $("<tr>").append($("<td>").append($photo).append($info));
+    // },
+
     
                 fields: [
-                  {name: "CotizacionDetId", title: "CotizacionDetId", visible : false},
-                  {name: "CotizacionId", title: "CotizacionId", visible : false},
+                  // {name: "CotizacionDetId", title: "CotizacionDetId", visible : false},
+                  // {name: "CotizacionId", title: "CotizacionId", visible : false},
                   { name: "ProductoId", title: "Producto", type: "select", width: 100, items: countries, valueField: "ProductoId", textField: "ProductoConcat" ,
                   validate: { message: 'Ya seleccionaste ese producto', validator: function(value, item) { 
                   
@@ -530,3 +545,7 @@ $(() => {
           }          
           //Cargamos el grid
         LoadGrid();
+      //   console.log('aaaa');
+      //   String.prototype.capitalize = function() {
+      //     return this.charAt(0).toUpperCase() + this.slice(1);
+      // };

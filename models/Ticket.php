@@ -93,13 +93,19 @@ return $resultado = $sql->fetchAll();
 
 //Elimina un ticket
 public function DeleteTicket($TicketId){
-    $conectar = parent::Conexion();
-    parent::set_names();
-            $sql = "call Ticket_DeleteTicket(?)";
-            $sql=$conectar->prepare($sql);
-            $sql->bindParam(1,$TicketId);
-            $sql->execute();
-          //  return $resultado =$sql->fetchAll();
+    try {
+        $conectar = parent::Conexion();
+        parent::set_names();
+    
+        $UpdateCliente = "UPDATE tbltickets SET EstatusId = :EstatusId WHERE TicketId = :TicketId";
+        $EstadoId = 4;;
+        $stmt =$this->db->prepare($UpdateCliente);
+        $stmt->bindParam(':EstatusId', $EstadoId);
+        $stmt->bindParam(':TicketId', $TicketId);
+        $stmt->execute();
+    } catch (\Exception $e) {
+       return($e);
+    }
 }
 
 //Setea un ticket a pagado

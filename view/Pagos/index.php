@@ -37,9 +37,13 @@
 				<table id="GridCategorias" class="table table-bordered table-striped table-vcenter js-dataTable-full">
 					<thead>
 						<tr>
+						<th>Folio</th>
+						<th style="width: 10%;">Persona a quien se Pago</th>
                         <th style="width: 10%;"># Factura</th>
-							<th style="width: 10%;">Persona a quien se Pago</th>
-                            <th style="width: 10%;">Total</th>
+                        <th style="width: 10%;">Total</th>
+						<th >Fecha de Pago</th>
+						<th>Editar</th>
+						<th>Eliminar</th>
 						</tr>
 					</thead>
 					<tbody>

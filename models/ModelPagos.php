@@ -8,6 +8,7 @@ class TblPagos {
     public $Activo; //int
     public $created_at; //timestamp
     public $updated_at; //timestamp
+    public $FechaPago;
 }
 
 ?>
