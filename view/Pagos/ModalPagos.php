@@ -14,7 +14,7 @@
                     <div class="form-group">
                         <input type="hidden" id= "PagoId">
                         <label for="SelectPagos">Empleado a asignar Pago</label>
-                        <select class="form-control" id="SelectPagos">
+                        <input class="form-control" id="SelectPagos" type="text" placeholder="Nombre de a quien se Paga">
                         </select>
                         
                     </div>

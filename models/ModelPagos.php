@@ -3,6 +3,7 @@
 class TblPagos {
     public $PagoId; //int
     public $UsuarioId; //int
+    public $Nombre; //string
     public $Factura; //int
     public $Total; //decimal(12,2)
     public $Activo; //int

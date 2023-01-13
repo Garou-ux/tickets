@@ -106,7 +106,7 @@ function OpenModalPagos(PagoId = 0){
           $('#pPagoId').show();
         $('#smallpagoid').text(PagoId);
         $('#ModalPagos').modal('show');
-        $('#SelectPagos').val(data[0].UsuarioId);
+        $('#SelectPagos').val(data[0].Nombre);
         $('#FacturaN').val(data[0].Factura);
         $('#Pago').val(data[0].Total);
         $('#PagoId').val(PagoId);

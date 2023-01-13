@@ -6,7 +6,7 @@ class Pagos extends Conectar{
     private function ReadTabla($row) {
         $result = new TblPagos();
         $result->PagoId = $row["PagoId"];
-        $result->UsuarioId = $row["UsuarioId"];
+        $result->Nombre = $row["Nombre"];
         $result->Factura = $row["Factura"];
         $result->Total = $row["Total"];
         $result->Activo = $row["Activo"];
@@ -38,10 +38,10 @@ public function AddEditPago($PagoId,$UsuarioId, $Facura,$Total){
     parent::set_names();
     $Activo = 1;
     if($PagoId <= 0){
-        $sqltblcotizacion = "INSERT INTO tblpagos (UsuarioId, Factura, Total, Activo, created_at, updated_at) 
-        VALUES (:UsuarioId, :Factura, :Total, :Activo, :created_at, :updated_at)";
+        $sqltblcotizacion = "INSERT INTO tblpagos (Nombre, Factura, Total, Activo, created_at, updated_at) 
+        VALUES (:Nombre, :Factura, :Total, :Activo, :created_at, :updated_at)";
         $tblcotizacion = $this->db->prepare($sqltblcotizacion);
-        $tblcotizacion->bindParam(":UsuarioId", $UsuarioId);
+        $tblcotizacion->bindParam(":Nombre", $UsuarioId);
         $tblcotizacion->bindParam(":Factura", $Facura);
         $tblcotizacion->bindParam(":Total", $Total);
         $tblcotizacion->bindParam(":Activo", $Activo);
@@ -53,9 +53,9 @@ public function AddEditPago($PagoId,$UsuarioId, $Facura,$Total){
         $Type    = 'success';
         $Title   = 'Proceso Completado';
     }else{
-        $UpdateCliente = "UPDATE tblpagos SET UsuarioId = :UsuarioId, Factura = :Factura, Total = :Total, updated_at = :updated_at WHERE PagoId = :PagoId";
+        $UpdateCliente = "UPDATE tblpagos SET Nombre = :Nombre, Factura = :Factura, Total = :Total, updated_at = :updated_at WHERE PagoId = :PagoId";
         $stmt =$this->db->prepare($UpdateCliente);
-        $stmt->bindParam(':UsuarioId', $UsuarioId);
+        $stmt->bindParam(':Nombre', $UsuarioId);
         $stmt->bindParam(':Factura', $Facura);
         $stmt->bindParam(":Total", $Total);
         $stmt->bindParam(':updated_at', $FechaActual);
@@ -91,7 +91,7 @@ public function AddEditPago($PagoId,$UsuarioId, $Facura,$Total){
 public function GetDataPagoXId($PagoId){
     $conectar = parent::Conexion();
     parent::set_names();
-    $sql = "SELECT PagoId,UsuarioId,Factura,Total, Activo, created_at as FechaPago FROM tblpagos WHERE PagoId = :PagoId";
+    $sql = "SELECT PagoId,Nombre,Factura,Total, Activo, created_at as FechaPago FROM tblpagos WHERE PagoId = :PagoId";
     $q = $this->db->prepare($sql);
     $q->bindParam(":PagoId", $PagoId);
     $q->execute();

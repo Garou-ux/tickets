@@ -30,7 +30,7 @@ $Usuario = new Usuario();
             break;
 
             case "GetListUsuarios":
-                $Datos=$Usuario->ListaUsuariosClientes();
+                $Datos=$Usuario->ListaUsuariosClientes(1);
                 //Validamos que se tengan datos
        if(is_array($Datos)== true and count($Datos)>0){
          $html = "<option></option>";
