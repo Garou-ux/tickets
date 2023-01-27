@@ -626,7 +626,7 @@ lang:'es-ES',
       type: "GET",
       // url: "http://localhost:8010/jsgridphp/countries/index.php"
       data: {Caso : 0},
-      url: '../../controller/ctrlProducto.php?op=ListProducto'
+      url: '../../controller/ctrlProducto.php?op=ListProductosGridCoti'
   }).done(function(countries) {
   
       countries.unshift({ ProductoId: "0", ProductoConcat: "" });

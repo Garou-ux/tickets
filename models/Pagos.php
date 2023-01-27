@@ -11,6 +11,8 @@ class Pagos extends Conectar{
         $result->Total = $row["Total"];
         $result->Activo = $row["Activo"];
         $result->created_at = $row["FechaPago"];
+        $result->Descripcion = $row["Descripcion"];
+        $result->Pagado = $row["Pagado"];
         // $result->updated_at = $row["updated_at"];
         return $result;
     }
@@ -24,7 +26,7 @@ class Pagos extends Conectar{
     return $resultado =$query->fetchAll();
 }
 
-public function AddEditPago($PagoId,$UsuarioId, $Facura,$Total){
+public function AddEditPago($PagoId,$UsuarioId, $Facura,$Total, $Descripcion, $Pagado){
     $error = '';
     try {
     date_default_timezone_set('America/Monterrey');
@@ -38,8 +40,8 @@ public function AddEditPago($PagoId,$UsuarioId, $Facura,$Total){
     parent::set_names();
     $Activo = 1;
     if($PagoId <= 0){
-        $sqltblcotizacion = "INSERT INTO tblpagos (Nombre, Factura, Total, Activo, created_at, updated_at) 
-        VALUES (:Nombre, :Factura, :Total, :Activo, :created_at, :updated_at)";
+        $sqltblcotizacion = "INSERT INTO tblpagos (Nombre, Factura, Total, Activo, created_at, updated_at, Descripcion, Pagado) 
+        VALUES (:Nombre, :Factura, :Total, :Activo, :created_at, :updated_at, :Descripcion, :Pagado)";
         $tblcotizacion = $this->db->prepare($sqltblcotizacion);
         $tblcotizacion->bindParam(":Nombre", $UsuarioId);
         $tblcotizacion->bindParam(":Factura", $Facura);
@@ -47,18 +49,22 @@ public function AddEditPago($PagoId,$UsuarioId, $Facura,$Total){
         $tblcotizacion->bindParam(":Activo", $Activo);
         $tblcotizacion->bindParam(":created_at", $FechaActual);
         $tblcotizacion->bindParam(":updated_at", $FechaActual);
+        $tblcotizacion->bindParam(":Descripcion", $Descripcion);
+        $tblcotizacion->bindParam(":Pagado", $Pagado);
         $tblcotizacion->execute();
         $Mensaje = 'Se Guardo Correctamente el Movimiento';
         $Bandera = 'true';
         $Type    = 'success';
         $Title   = 'Proceso Completado';
     }else{
-        $UpdateCliente = "UPDATE tblpagos SET Nombre = :Nombre, Factura = :Factura, Total = :Total, updated_at = :updated_at WHERE PagoId = :PagoId";
+        $UpdateCliente = "UPDATE tblpagos SET Nombre = :Nombre, Factura = :Factura, Total = :Total, updated_at = :updated_at, Descripcion = :Descripcion, Pagado = :Pagado WHERE PagoId = :PagoId";
         $stmt =$this->db->prepare($UpdateCliente);
         $stmt->bindParam(':Nombre', $UsuarioId);
         $stmt->bindParam(':Factura', $Facura);
         $stmt->bindParam(":Total", $Total);
         $stmt->bindParam(':updated_at', $FechaActual);
+        $stmt->bindParam(':Descripcion', $Descripcion);
+        $stmt->bindParam(':Pagado', $Pagado);
         $stmt->bindParam(":PagoId", $PagoId);
         $stmt->execute();
         $Mensaje = 'Se Guardo Correctamente el Movimiento';
@@ -91,7 +97,7 @@ public function AddEditPago($PagoId,$UsuarioId, $Facura,$Total){
 public function GetDataPagoXId($PagoId){
     $conectar = parent::Conexion();
     parent::set_names();
-    $sql = "SELECT PagoId,Nombre,Factura,Total, Activo, created_at as FechaPago FROM tblpagos WHERE PagoId = :PagoId";
+    $sql = "SELECT PagoId,Nombre,Factura,Total, Activo, created_at as FechaPago, Descripcion, Pagado FROM tblpagos WHERE PagoId = :PagoId";
     $q = $this->db->prepare($sql);
     $q->bindParam(":PagoId", $PagoId);
     $q->execute();

@@ -104,11 +104,12 @@ return $resultado = $sql->fetchAll();
 
     //obtiene la lista de usuarios de tipo cliente
 
-    public function ListaUsuariosClientes(){
+    public function ListaUsuariosClientes($UsuarioId = 2){
         $conectar = parent::Conexion();
         parent::set_names();
-        $sql = "call Usuario_ListaUsuariosClientes()";
+        $sql = "call Usuario_ListaUsuariosClientes(?)";
         $sql = $conectar->prepare($sql);
+        $sql->bindParam(1,$UsuarioId);
         $sql->execute();
         return $resultado = $sql->fetchAll();
     }

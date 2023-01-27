@@ -10,10 +10,10 @@ var TmpMaestro = {};
 $(document).ready(function(){
 
     //Llenamos el select con los Roles del usuario
-    $.post("../../controller/ctrlProducto.php?op=ListarProductoCategoria",function(data,status){
-        // console.log(data);
-        $('#ProductoServicio_Categoria').html(data);
-        });
+    // $.post("../../controller/ctrlProducto.php?op=ListarProductoCategoria",function(data,status){
+    //     // console.log(data);
+    //     $('#ProductoServicio_Categoria').html(data);
+    //     });
 
 });
 //#endregion
@@ -38,7 +38,7 @@ function fnListaProductos(){
            
             type : "post",
             dataType : "json",		
-            data:{ Caso : 1},				
+            data:{ Caso : 0},				
             error: function(e){
                 console.log(e.responseText);	
             }
@@ -97,7 +97,7 @@ function fnListaServicios(){
            
             type : "post",
             dataType : "json",		
-            data:{ Caso : 2},				
+            data:{ Caso : 1},				
             error: function(e){
                 console.log(e.responseText);	
             }
@@ -138,20 +138,21 @@ function fnListaServicios(){
 
 //#region fnGetProductoServicio: se usa para obtener los datos de un producto/servicio x id
 function fnGetProductoServicio(ProductoId){
-    $.post("../../controller/ctrlProducto.php?op=GetProducto",
-    {ProductoId : ProductoId},function(data,status){
-        TmpMaestro = JSON.parse(data);//parseamos a objeto json los valores de la bd 
-        
-        //Llenamos los datos del formulario
-        $('#ProductoServicio_Clave').val(TmpMaestro.Clave);
-        $('#ProductoServicio_Descripcion').val(TmpMaestro.Descripcion);
-        $('#ProductoServicio_ClaveSat').val(TmpMaestro.ClaveSat);
-        $('#ProductoServicio_Categoria').val(TmpMaestro.ProdCategoriaId);
-        $('#ProductoServicio_EsServicio').val(TmpMaestro.EsServicio);
-        $('#ProductoServicio_Uso').val(TmpMaestro.Uso);
-        
-        //    console.log(TmpMaestro);
-        });
+    LoadDropdownCategorias();
+    setTimeout(() => {
+        $.post("../../controller/ctrlProducto.php?op=GetProducto",
+        {ProductoId : ProductoId},function(data,status){
+            TmpMaestro = JSON.parse(data);//parseamos a objeto json los valores de la bd 
+            
+            //Llenamos los datos del formulario
+            $('#ProductoServicio_Clave').val(TmpMaestro.Clave);
+            $('#ProductoServicio_Descripcion').val(TmpMaestro.Descripcion);
+            $('#ProductoServicio_ClaveSat').val(TmpMaestro.ClaveSat);
+            $('#ProductoServicio_Categoria').val(TmpMaestro.ProdCategoriaId);
+            $('#ProductoServicio_EsServicio').val(TmpMaestro.EsServicio);
+            $('#ProductoServicio_Uso').val(TmpMaestro.Uso);
+            });
+    }, 100);
 }
 //#endregion
 
@@ -159,10 +160,25 @@ function fnGetProductoServicio(ProductoId){
 
 //#region evento click del boton nuevo producto/servicio, abre el modal para crear un nuevo producto/servicio
 $(document).on("click","#BtnModalProductoServicio", function(){
-    $('#ModalTitulo').html('Nuevo Producto/Servicio');
-    $('#ProductoServicioForm')[0].reset();
-    $('#ModalProductosServicios').modal('show');
+   
+
+    $.post("../../controller/ctrlProducto.php?op=ListarProductoCategoria",function(data,status){
+        console.log(data);
+        $('#ProductoServicio_Categoria').html(data);
+        $('#ModalTitulo').html('Nuevo Producto/Servicio');
+        $('#ProductoServicioForm')[0].reset();
+        $('#ModalProductosServicios').modal('show');    
+        });        
+  
+            
 });
+
+function LoadDropdownCategorias(){
+    $.post("../../controller/ctrlProducto.php?op=ListarProductoCategoria",function(data,status){
+        // console.log(data);
+        $('#ProductoServicio_Categoria').html(data);  
+        });      
+}
 //#endregion
 
 //#region fnEditarProductoServicio: se usa para editar o dar de baja un producto
@@ -189,8 +205,8 @@ function fnEditarProductoServicio(ProductoId,Caso,EsServicio){
                 MaestroArr.push(TmpMaestro);
                 //parseamos el objeto a json para mandarlo como parametro
                 const Maestro = JSON.stringify(MaestroArr);
-                $.post("../../controller/ctrlProducto.php?op=AddProducto",
-                { Maestro : Maestro}, function(data){
+                $.post("../../controller/ctrlProducto.php?op=DesactivarProducto",
+                { ProductoId : ProductoId}, function(data){
                     fnListaProductos(); //se llena el grid de productos
                     fnListaServicios();//llenamos el grid de servicios
                 $('#ModalProductosServicios').modal('hide');
@@ -232,6 +248,7 @@ MaestroArr.push(TmpMaestro);
     { Maestro : Maestro}, function(data){
 
 // console.log(data);     
+$('#ProductoServicioForm')[0].reset();
 TmpMaestro = {};
 swal("Proceso Completado Correctamente","","success");
 fnListaProductos(); //se llena el grid de productos
@@ -248,7 +265,7 @@ $(document).on("click","#BtnAddProductoServicio", function(){
 //#endregion
 
 fnListaProductos(); //se llena el grid de productos
-fnListaServicios();//llenamos el grid de servicios
+// fnListaServicios();//llenamos el grid de servicios
 
 
 

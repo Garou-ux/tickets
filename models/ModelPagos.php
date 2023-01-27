@@ -10,6 +10,8 @@ class TblPagos {
     public $created_at; //timestamp
     public $updated_at; //timestamp
     public $FechaPago;
+    public $Descripcion;
+    public $Pagado;
 }
 
 ?>

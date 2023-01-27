@@ -102,6 +102,14 @@
           <a class="dropdown-item btn btn-primary" title="Permite mostrar las respuestas y detalle del ticket"  onClick="fnVerTicket('.$row["TicketId"].');" id="'.$row["TicketId"].'" ><div>Responder Ticket <i class="fa fa-edit"></i></div></a>
       </div>
         ';
+    }else{
+        $sub_array[] = '
+        <div class="btn-group">
+        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+          Acciones
+        </button>
+      </div>
+        ';
     }
     }
     $DataTable[] = $sub_array;

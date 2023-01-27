@@ -45,7 +45,7 @@
 								</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="#tabs-1-tab-2" role="tab" data-toggle="tab">
+								<a class="nav-link" onclick="fnListaServicios()" href="#tabs-1-tab-2" role="tab" data-toggle="tab">
 									<span class="nav-link-in">
                                     <i class="fa fa-bolt" aria-hidden="true"></i>
 										Servicios
@@ -63,23 +63,7 @@
                     <div class="box-typical box-typical-padding">
 				
 					<button type="button" id="BtnModalProductoServicio" class="btn btn-inline btn-primary">Nuevo Producto</button>
-				<table id="GridProductos" class="table table-bordered table-striped table-vcenter js-dataTable-full">
-					<thead>
-						<tr>
-                        <th style="width: 10%;"># Producto</th>
-							<th style="width: 10%;">Clave</th>
-                            <th style="width: 10%;">Descripción</th>
-                            <th style="width: 10%;">Clave SAT</th>
-                            <th style="width: 10%;">Categoria</th>
-                            <th style="width: 10%;">Uso</th>
-							<th class="text-center" style="width: 5%;"></th>
-							<th class="text-center" style="width: 5%;"></th>
-						</tr>
-					</thead>
-					<tbody>
-
-					</tbody>
-				</table>
+					<?php require_once("GridProductosServicios.php");?>
 			</div>
 
                     </div><!--.tab-pane-->

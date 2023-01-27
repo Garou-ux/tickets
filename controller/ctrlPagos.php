@@ -13,10 +13,13 @@ $Usuario = new Usuario();
                     $sub_array   = array();
                     $sub_array["PagoId"] = $row["PagoId"];
                     $sub_array["Nombre"] = $row["Nombre"];
+                    $sub_array["Descripcion"] = $row["Descripcion"];
                     $sub_array["Factura"] = $row["Factura"];
                     $sub_array["Total"] = $row["Total"];
+                    $sub_array["NombrePagado"] = $row["NombrePagado"];
                     $sub_array["FechaPago"] = $row["FechaPago"];
                     $sub_array["Btn"] = $row["PagoId"];
+                    $sub_array["Pagado"] = $row["Pagado"];
                     $DataTable[] = $sub_array;
                 }
                 $DataTableProps = array(
@@ -42,7 +45,7 @@ $Usuario = new Usuario();
                 break;
 
            case "AddEditPago":
-                $Datos = $Pagos->AddEditPago($_POST["PagoId"], $_POST["UsuarioId"], $_POST["Factura"] ,$_POST["Total"]);
+                $Datos = $Pagos->AddEditPago($_POST["PagoId"], $_POST["UsuarioId"], $_POST["Factura"] ,$_POST["Total"], $_POST["Descripcion"], $_POST["Pagado"]);
                 echo json_encode($Datos);
             break;
 

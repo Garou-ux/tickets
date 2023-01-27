@@ -39,8 +39,10 @@
 						<tr>
 						<th>Folio</th>
 						<th style="width: 10%;">Persona a quien se Pago</th>
+						<th style="width: 10%;">Descripción</th>
                         <th style="width: 10%;"># Factura</th>
                         <th style="width: 10%;">Total</th>
+						<th ></th>
 						<th >Fecha de Pago</th>
 						<th>Editar</th>
 						<th>Eliminar</th>

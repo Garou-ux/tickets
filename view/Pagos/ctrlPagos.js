@@ -51,10 +51,16 @@ function CargarListaTickets (){
         data   : 'Nombre'
         },
         {
+        data   : 'Descripcion'
+        },
+        {
         data   : 'Factura'
         },
         {
         data   : 'Total'
+        },
+        {
+        data   : 'NombrePagado'
         },
         {
         data   : 'FechaPago'
@@ -67,6 +73,17 @@ function CargarListaTickets (){
         }
 
     ],
+    createdRow: function( row, data, dataIndex){
+      console.log( data);
+      if(data.Pagado == 0){
+     
+          $(row).css("background-color", "red");
+      }
+      if(data.Pagado == 1){
+        console.log(row, data, dataIndex);
+            $(row).css("background-color", "#19CE13");
+        }
+  },
   });
   Spinner('GridCategoria', false);
   }
@@ -110,6 +127,10 @@ function OpenModalPagos(PagoId = 0){
         $('#FacturaN').val(data[0].Factura);
         $('#Pago').val(data[0].Total);
         $('#PagoId').val(PagoId);
+        $('#Descripcion').val(data[0].Descripcion)
+        // $('#Pagado').val(data[0].Pagado)
+        let p = data[0].Pagado;
+        $( "#Pagado").prop('checked', p ==  1 ? true : false)
         Spinner('GridCategorias', false);
       }).fail(function(data) {
         Spinner('GridCategorias', false);
@@ -125,11 +146,14 @@ function OpenModalPagos(PagoId = 0){
 
 function AgregarEditarPago(PagoId = 0){
   Spinner('ModalPagos', true);
+  var p = $("#Pagado").is(":checked");
     let _data = {
-        PagoId    : $('#PagoId').val() || 0,
-        UsuarioId : $('#SelectPagos').val(),
-        Factura   : $('#FacturaN').val(),
-        Total     : $('#Pago').val()
+             PagoId : $('#PagoId').val() || 0,
+          UsuarioId : $('#SelectPagos').val(),
+            Factura : $('#FacturaN').val(),
+              Total : $('#Pago').val(),
+        Descripcion : $('#Descripcion').val(),
+        Pagado      : p == true ? 1 : 0
     };
    $.ajax({
     type: "POST",

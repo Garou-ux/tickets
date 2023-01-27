@@ -18,6 +18,14 @@
                         </select>
                         
                     </div>
+                       
+                    <div class="form-group">
+                        <input type="hidden" id= "PagoId">
+                        <label for="Descripcion">Descripción</label>
+                        <textarea class="form-control" name="Descripcion" id="Descripcion" placeholder="Descripcion"></textarea>
+                        </select>                       
+                    </div>
+
                     <div class="form-group">
                         <label for="Pago"># Factura</label>
                         <input type="number" class="form-control" id="FacturaN" placeholder="$0.00">
@@ -25,7 +33,12 @@
                     <div class="form-group">
                         <label for="Pago">Cantidad a Pagar</label>
                         <input type="number" class="form-control" id="Pago" placeholder="$0.00">
+           
                       </div>
+                      <div class="form-group form-check">
+                <input type="checkbox" class="form-control form-check-input" id="Pagado">
+                <label class="form-check-label" for="Pagado">Pagado</label>
+  </div>
                 </form>
                 </div> <!-- Fin modal body-->
                 <div class="modal-footer">
@@ -36,3 +49,8 @@
         </div>
     </div>
 </div>
+
+<!-- Cambios para pagos
+1.Abajo del empleado, poner descripcion del servicio
+2. en el grid de pagos poner estatus del pago Verde: Pendiente de pagar, Rojo Pagado
+-->
