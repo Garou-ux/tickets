@@ -75,12 +75,12 @@ $Datos = $Producto->ListProducto(0);
                         $DataTable = Array();
                         foreach ($Datos as $row){
                         $sub_array = array();
-                        // var_dump($row->ProductoId);
+                        // print_r($row);
                         $sub_array[] = $row->ProductoId;
                         $sub_array[] = $row->Clave;
                         $sub_array[] = $row->ProductoConcat;
                         $sub_array[] = $row->ClaveSat;
-                        $sub_array[] = $row->Categoria;
+                        $sub_array[] = $row->Cateogria;
                         switch($row->Uso){
                             case "1":
                             $sub_array[] = '<span class="label label-success">Activado</span>';

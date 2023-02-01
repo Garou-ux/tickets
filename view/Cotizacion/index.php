@@ -84,6 +84,7 @@ td { font-size: 13px; }
 
 	
 				</div><!--.tab-content-->
+				<div id="jsGrid1"></div>
 			</section><!--.tabs-section-->
 
 		</div>

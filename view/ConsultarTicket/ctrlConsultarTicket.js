@@ -747,25 +747,43 @@ onItemEditing: function(args) {
         fields: [
           {name: "ReporteServicioDetalleId", title: "ReporteServicioDetalleId", visible : false},
           {name: "ReporteServicioId", title: "ReporteServicioId", visible : false},
-          { name: "ProductoId", title: "Materiales/Servicios", type: "select", width: 100, items: countries, valueField: "ProductoId", textField: "ProductoConcat" ,
-          validate: { message: 'Ya seleccionaste ese producto', validator: function(value, item) { 
+          { name: "ProductoId", title: "Materiales/Servicios", type: "select", width: 100, items: countries, /*valueField: "ProductoId",*/ textField: "ProductoConcat" ,
+          insertTemplate: function(value, item) {
+            console.log('in inserttemplate 0');
+               var $select = jsGrid.fields.select.prototype.insertTemplate.call(this);
+               $select.addClass('selectpicker form-control');
+               $select.attr("data-live-search", "true");
+   $select.attr("data-container", "body");
+               
+               setTimeout(function() {
+                   $select.selectpicker({
+                       liveSearch: true
+                   });		             		
+                   $select.selectpicker('refresh');
+                   $select.selectpicker('render');
+               });
+               console.log('in inserttemplate 2');	
+               return $select;
+           },  
           
-          if(value <= 0){
-          Mensaje = 'Favor de seleccionar un producto ;c';
-          return false;
-          }
-            var gridData = $("#jsGrid").jsGrid("option", "data");
+          // validate: { message: 'Ya seleccionaste ese producto', validator: function(value, item) { 
+          
+          // if(value <= 0){
+          // Mensaje = 'Favor de seleccionar un producto ;c';
+          // return false;
+          // }
+          //   var gridData = $("#jsGrid").jsGrid("option", "data");
                            
-            for (i = 0; i < gridData.length; i++) {                                		 
-                  if(value == gridData[i].ProductoId ){
-                  Mensaje = 'Ya seleccionaste ese producto '
-                    return false;
+          //   for (i = 0; i < gridData.length; i++) {                                		 
+          //         if(value == gridData[i].ProductoId ){
+          //         Mensaje = 'Ya seleccionaste ese producto '
+          //           return false;
                     
-                  }
-              }
-            return true; 
+          //         }
+          //     }
+          //   return true; 
           
-          } }
+          // } }
           },
           {
           name : "Comentarios", title: "Comentarios", type : "text", filtering : false

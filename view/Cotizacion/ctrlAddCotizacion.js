@@ -504,25 +504,42 @@ $(() => {
                 fields: [
                   // {name: "CotizacionDetId", title: "CotizacionDetId", visible : false},
                   // {name: "CotizacionId", title: "CotizacionId", visible : false},
-                  { name: "ProductoId", title: "Producto", type: "select", width: 100, items: countries, valueField: "ProductoId", textField: "ProductoConcat" ,
-                  validate: { message: 'Ya seleccionaste ese producto', validator: function(value, item) { 
+                  { name: "ProductoId", title: "Producto", type: "select", width: 100, items: countries, /*valueField: "ProductoId",*/ textField: "ProductoConcat" ,
+                  insertTemplate: function(value, item) {
+                    console.log('in inserttemplate 0');
+                       var $select = jsGrid.fields.select.prototype.insertTemplate.call(this);
+                       $select.addClass('selectpicker form-control');
+                       $select.attr("data-live-search", "true");
+           $select.attr("data-container", "body");
+                       
+                       setTimeout(function() {
+                           $select.selectpicker({
+                               liveSearch: true
+                           });		             		
+                           $select.selectpicker('refresh');
+                           $select.selectpicker('render');
+                       });
+                       console.log('in inserttemplate 2');	
+                       return $select;
+                   },  
+                  // validate: { message: 'Ya seleccionaste ese producto', validator: function(value, item) { 
                   
-                  if(value <= 0){
-                  Mensaje = 'Favor de seleccionar un producto ;c';
-                  return false;
-                  }
-                    var gridData = $("#jsGrid").jsGrid("option", "data");
+                  // if(value <= 0){
+                  // Mensaje = 'Favor de seleccionar un producto ;c';
+                  // return false;
+                  // }
+                  //   var gridData = $("#jsGrid").jsGrid("option", "data");
                                 	 
-                    for (i = 0; i < gridData.length; i++) {                                		 
-                          if(value == gridData[i].ProductoId ){
-                          Mensaje = 'Ya seleccionaste ese producto '
-                            return false;
+                  //   for (i = 0; i < gridData.length; i++) {                                		 
+                  //         if(value == gridData[i].ProductoId ){
+                  //         Mensaje = 'Ya seleccionaste ese producto '
+                  //           return false;
                             
-                          }
-                      }
-                    return true; 
+                  //         }
+                  //     }
+                  //   return true; 
                   
-                  } }
+                  // } }
                   },
                   {
                   name : "Descripcion", title: "Descripcion", type : "text", filtering : false

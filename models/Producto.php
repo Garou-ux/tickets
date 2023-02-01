@@ -76,7 +76,9 @@ public function ListProducto($Caso = 0){
     p.Uso,
     p.Descripcion, p.ClaveSat, concat(p.Clave, '| ', p.Descripcion) as ProductoConcat ,cat.Categoria 
     FROM tblproductos p INNER JOIN tblproductocategoria cat ON cat.ProdCategoriaId = p.ProdCategoriaId 
-    WHERE  EsServicio = :EsServicio";
+    WHERE  EsServicio = :EsServicio
+    ORDER BY cat.ProdCategoriaId
+    ";
     $Uso = 1;
     $q = $conectar->prepare($QueryProductos);
     // $q ->bindParam(":Uso",$Uso);

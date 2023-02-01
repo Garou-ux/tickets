@@ -24,6 +24,7 @@ function fnListaProductos(){
     tabla=$('#GridProductos').dataTable({
         "aProcessing": true,
         "aServerSide": true,
+        order: [[4, 'asc']],  
         dom: 'Bfrtip',
         "searching": true,
         lengthChange: false,
@@ -83,6 +84,7 @@ function fnListaServicios(){
     tabla=$('#GridServicios').dataTable({
         "aProcessing": true,
         "aServerSide": true,
+        order: [[4, 'desc']],  
         dom: 'Bfrtip',
         "searching": true,
         lengthChange: false,
