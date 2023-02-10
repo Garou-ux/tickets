@@ -64,9 +64,8 @@ class Usuario extends Conectar{
     public function ListaUsuariosCliente($RolId = 2){
         $conectar = parent::Conexion();
         parent::set_names();
-        $sql="call Usuarios_ListaUsuariosCliente(?)";
+        $sql="call Usuarios_ListaUsuariosCliente()";
         $sql=$conectar->prepare($sql);
-        $sql->bindParam(1,$RolId);
         $sql->execute();
         return $resultado =$sql->fetchAll();
     }

@@ -70,10 +70,10 @@ fnListaCotizaciones();
 function fnMostrarPDFCotizacion(Id){
 
   //local
- //var _url = "http://localhost:8010/tickets/Reportes/ReporteCotizacion.php?CotizacionId="+Id+"";
+ var _url = "http://localhost:8010/tickets/Reportes/ReporteCotizacion.php?CotizacionId="+Id+"";
   
   //server
-  var _url = "http://ctnredes.com/Reportes/ReporteCotizacion.php?CotizacionId="+Id+"";
+ // var _url = "http://ctnredes.com/Reportes/ReporteCotizacion.php?CotizacionId="+Id+"";
   
   //Mandamos a imprimir el reporte
   printJS({ printable: _url, type: 'pdf', showModal: true });
@@ -354,23 +354,23 @@ $('#SpanTotal').text(TotalCot);
            {name : "CotizacionDetId", title: "CotizacionDetId", visible : false},
            {name : "CotizacionId", title: "CotizacionId", visible : false},
           { name : "ProductoId", title: "Producto", type: "select", width: 100, items: countries, /*valueField: "ProductoId",*/ textField: "ProductoConcat" ,
-          insertTemplate: function(value, item) {
-            console.log('in inserttemplate 0');
-               var $select = jsGrid.fields.select.prototype.insertTemplate.call(this);
-               $select.addClass('selectpicker form-control');
-               $select.attr("data-live-search", "true");
-   $select.attr("data-container", "body");
+  //         insertTemplate: function(value, item) {
+  //           console.log('in inserttemplate 0');
+  //              var $select = jsGrid.fields.select.prototype.insertTemplate.call(this);
+  //              $select.addClass('selectpicker form-control');
+  //              $select.attr("data-live-search", "true");
+  //  $select.attr("data-container", "body");
                
-               setTimeout(function() {
-                   $select.selectpicker({
-                       liveSearch: true
-                   });		             		
-                   $select.selectpicker('refresh');
-                   $select.selectpicker('render');
-               });
-               console.log('in inserttemplate 2');	
-               return $select;
-           },  
+  //              setTimeout(function() {
+  //                  $select.selectpicker({
+  //                      liveSearch: true
+  //                  });		             		
+  //                  $select.selectpicker('refresh');
+  //                  $select.selectpicker('render');
+  //              });
+  //              console.log('in inserttemplate 2');	
+  //              return $select;
+  //          },  
         // validate : { message: 'Ya seleccionaste ese producto', validator: function(value, item) {
         
         // if(value <= 0){
@@ -556,9 +556,9 @@ $(() => {
           // //Obtenemos el pdf que se genera
           // //local
           // console.log(data.CotizacionId);
-       // var _url = "http://localhost:8010/tickets/Reportes/ReporteCotizacion.php?CotizacionId="+data.CotizacionId+"";     
+      var _url = "http://localhost:8010/tickets/Reportes/ReporteCotizacion.php?CotizacionId="+data.CotizacionId+"";     
           // //server
-       var _url = "http://ctnredes.com/Reportes/ReporteCotizacion.php?CotizacionId="+data.CotizacionId+"";     
+       //  var _url = "http://ctnredes.com/Reportes/ReporteCotizacion.php?CotizacionId="+data.CotizacionId+"";     
         // console.log(_url);
           // //Mandamos a imprimir el reporte
         printJS({ printable: _url, type: 'pdf', showModal: true });

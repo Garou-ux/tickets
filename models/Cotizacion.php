@@ -58,16 +58,18 @@ class Cotizacion extends Conectar{
             $tblcotizacion->execute();
             $CotizacionId = $this->db->lastInsertId();
             $array = json_decode($Detalle, true);
+            $this->db->rollback();
             foreach($array as $row){
                 $sql = "INSERT INTO tblcotizaciondet (CotizacionId, ProductoId, Descripcion, Cantidad, Precio, Total) VALUES (:CotizacionId, :ProductoId, :Descripcion, :Cantidad, :Precio, :Total)";
                 $q = $this->db->prepare($sql);
-                $ProductoId = intval($row["ProductoId"]);
+                $ProductoId = $row["ProductoId"];
+                var_dump($row);
                 $Cantidad   = intval($row["Cantidad"]);
                 $Precio     = $row["Precio"];
                 $Total      = $row["Total"];
                 $Descripcion = $row["Descripcion"];
                 $q->bindParam(":CotizacionId",$CotizacionId);
-                $q->bindParam(":ProductoId",$ProductoId, PDO::PARAM_INT);
+                $q->bindParam(":ProductoId",$ProductoId);
                 $q->bindParam(":Descripcion", $Descripcion);
                 $q->bindParam(":Cantidad", $Cantidad, PDO::PARAM_INT);
                 $q->bindParam(":Precio",  $Precio );
@@ -75,7 +77,7 @@ class Cotizacion extends Conectar{
                 $q->execute();
             ;
             }
-            
+            $this->db->rollback();
             //Se actualiza el correo del cliente
             $UpdateCliente = "UPDATE tblusuarios SET Correo = :Correo WHERE UsuarioId = :UsuarioId";
             $UsuarioId =  $MaestroArray[0]["ClienteId"];
