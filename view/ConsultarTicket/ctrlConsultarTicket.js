@@ -551,9 +551,9 @@ lang:'es-ES',
                             CargarListaTickets();
                            //Obtenemos el pdf que se genera
                            //local
-                           var _url = "http://localhost:8010/tickets/Reportes/ReporteServicio.php?ReporteServicioId="+data.ReporteServicioId+"";
+                          //  var _url = "http://localhost:8010/tickets/Reportes/ReporteServicio.php?ReporteServicioId="+data.ReporteServicioId+"";
                           //server
-                       //   var _url = "http://ctnredes.com/Reportes/ReporteServicio.php?ReporteServicioId="+data.ReporteServicioId+"";
+                         var _url = "http://ctnredes.com/Reportes/ReporteServicio.php?ReporteServicioId="+data.ReporteServicioId+"";
                          // console.log(_url);
                          //Mandamos a imprimir el reporte
                          printJS({ printable: _url, type: 'pdf', showModal: true })

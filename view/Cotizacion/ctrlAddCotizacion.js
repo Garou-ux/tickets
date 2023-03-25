@@ -335,10 +335,10 @@ $(() => {
           // //Obtenemos el pdf que se genera
           // //local
           // console.log(data.CotizacionId);
-      var _url = "http://localhost:8010/tickets/Reportes/ReporteCotizacion.php?CotizacionId="+data.CotizacionId+"";
+      // var _url = "http://localhost:8010/tickets/Reportes/ReporteCotizacion.php?CotizacionId="+data.CotizacionId+"";
           
           // //server
-       //   var _url = "http://ctnredes.com/Reportes/ReporteCotizacion.php?CotizacionId="+data.CotizacionId+"";     
+         var _url = "http://ctnredes.com/Reportes/ReporteCotizacion.php?CotizacionId="+data.CotizacionId+"";     
         // console.log(_url);
           // //Mandamos a imprimir el reporte
         printJS({ printable: _url, type: 'pdf', showModal: true });
