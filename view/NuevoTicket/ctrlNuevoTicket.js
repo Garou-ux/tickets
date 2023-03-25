@@ -1,3 +1,6 @@
+ 
+let user_var = 'Client';
+
 function init(){
     $("#TicketForm").on("submit",function(e){
     GuardarTicket(e);
@@ -38,9 +41,23 @@ function init(){
     });
     
     $.post("../../controller/ctrlCategoria.php?op=combo",function(data,status){
-    // console.log(data);
     $('#CategoriaId').html(data);
     });
+
+        let user_session =  getUserSession();
+        user_session
+        .then(data => {
+           let user = JSON.parse(data)
+            if(user.RolId === "1"){
+                user_var = 'Admin';
+                $(".select_hidden").css('display','block');
+                liveSearchSelectPickers();
+                getClients();
+            }else{
+                user_var = 'Client';
+            }
+        })
+        .catch(err => {});
     });
     
     //#endregion
@@ -54,8 +71,6 @@ function init(){
     let _Maestro = {};
     var MaestroArr =[];
     //     var Datos = new FormData($("#TicketForm")[0]);
-    
-    //    console.log(Datos);
     
     let Datos  = $("#TicketForm").serializeArray();
     Datos.forEach(function(Datosobj){
@@ -73,9 +88,9 @@ function init(){
         break;
     
         case "UsuarioId":
-            _Maestro.UsuarioId = Datosobj.value;
+            _Maestro.UsuarioId   =  user_var === 'Client' ? Datosobj.value : $('#select_cliente').val();
             _Maestro.UsuarioId = Number(_Maestro.UsuarioId);
-            
+              break;
             case "NombreReq":
             _Maestro.NombreReq = Datosobj.value;
             break;
@@ -83,9 +98,8 @@ function init(){
     _Maestro.TicketId = 0;
     
     });
-    // console.log(Datos);
+
     MaestroArr.push(_Maestro);
-    
     if (_Maestro.Titulo == undefined || _Maestro.Titulo ===''){
         swal('Favor de Ingresar un Titulo al ticket','','warning');
         return;
@@ -109,8 +123,6 @@ function init(){
     document.getElementById("Maestro").value = TMaestro;
     
     var formData = new FormData($("#TicketMaestroForm")[0]);
-
-     console.log(formData);
     $.ajax({
     url: "../../controller/ctrlTicket.php?op=Add",
     type: "POST",
@@ -118,7 +130,6 @@ function init(){
     contentType:false,
     processData:false,
     success: function(data){
-    // console.log(data);
     $('#TicketMaestroForm').val('');
     $('#Titulo').val('');
     $('#Descripcion').summernote('reset');
@@ -134,7 +145,6 @@ $.post("../../controller/ctrlEnvioEmails.php?op=NotificacionTicketAbierto",
 $.post("../../controller/ctrlEnvioEmails.php?op=NotificacionTicketAsignado",
 {TicketId : data.TicketId }, function(data){
 });
-    console.log(data.TicketId);
     }
     });
     //Redirigimos a la consulta de tickets
@@ -152,3 +162,82 @@ $.post("../../controller/ctrlEnvioEmails.php?op=NotificacionTicketAsignado",
     
 //#endregion
 init();
+
+
+const clearSelectPicker = (select) => {
+    return $(`#${select}`).empty();
+  };
+
+  const clearForm = (form) => {
+     return $(`#${form}`).trigger("reset");
+  };
+  
+  const refreshSelectPicker = (select) => {
+    return $(`.${select}`).selectpicker("refresh");
+  };
+
+const liveSearchSelectPickers = () => {
+    let select = $('.select');
+        select.addClass('selectpicker form-control');
+        select.attr("data-live-search", "true");
+        select.attr("data-container", "body");
+
+      return setTimeout(() => {
+           select.selectpicker({
+             livesearch : true
+           });
+           refreshSelectPicker('select');
+           select.selectpicker("render");
+        });
+  };
+
+
+  const fillSelectPicker = (objectSelect) => {
+    let select = $(`#${objectSelect.select}`);
+    clearSelectPicker(objectSelect.select);
+    refreshSelectPicker(objectSelect.class);
+    let option = `<option/>`;
+    for (const process of objectSelect.data) {
+      select.append($(option).val(`${process.UsuarioId}`).text(process.Cliente));
+    }
+    refreshSelectPicker('select');
+};
+
+const fetchData = async(url = "", data = {}, method = 'GET') => {
+    const response = await fetch(url, {
+       method: method, 
+       mode: "same-origin",
+         cache: "no-cache", 
+         credentials: "same-origin", 
+         headers: {
+           "Content-Type": "application/json",
+           "Accept": "application/json",
+           "X-Requested-With": "XMLHttpRequest",
+        //    "X-CSRF-Token": data._token
+         },
+         redirect: "follow", 
+         referrerPolicy: "no-referrer", 
+         body : method === "GET" ? null : JSON.stringify(data)
+       
+     });
+     
+return response.json();
+}
+
+
+const getClients = async () => {
+    let = data = { url : "../../controller/ctrlUsuario.php?op=getClients" }
+    let response = await fetchData(data.url, data, 'GET');
+    let optionsSelect = { select : 'select_cliente', data : response, class: 'select' };
+    fillSelectPicker(optionsSelect);
+};
+
+const getUserSession = async () =>{
+    let url = "../../controller/ctrlUsuario.php?op=GetUsuario";
+    let response =   await $.post("../../controller/ctrlUsuario.php?op=GetUsuario",
+    {UsuarioId : $('#UsuarioId').val()},function(data,status){
+        //TmpMaestro = JSON.parse(data);//parseamos a objeto json los valores de la bd 
+       return data;
+        });
+return response;
+}

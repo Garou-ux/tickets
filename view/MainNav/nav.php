@@ -70,6 +70,13 @@
                         </a>
                     </li>
                     <li class="blue-dirty">
+                        <a href="..\NuevoTicket\">
+                            
+                            <span class="glyphicon glyphicon-edit"></span>
+                            <span class="lbl">Nuevo Ticket</span>
+                        </a>
+                    </li>
+                    <li class="blue-dirty">
                         <a href="..\Cotizacion\">
                         <span class="glyphicon glyphicon-file"></span>
                             <span class="lbl">Cotizacion</span>

@@ -5,14 +5,21 @@ class Conectar {
     protected $db;
     protected function Conexion(){
         try{
+            // 173.201.190.12
+    //local a server
+     $conectar = $this->db = new PDO("mysql:host=173.201.190.12;dbname=conectotaldb", "AlejandroIslas", "9425Dcfnp!!qal30");
+     return $conectar;
+    //
+
+
                      //local
-         $conectar = $this ->db = 
- new PDO("mysql:host=localhost;dbname=conectotaldb", "root", "Password1");
+        //  $conectar = $this ->db = 
+//  new PDO("mysql:host=localhost;dbname=conectotaldb", "root", "Password1");
 //server
 // $conectar = $this ->db = 
 //   new PDO("mysql:host=localhost;dbname=conectotaldb", "AlejandroIslas", "9425Dcfnp!!qal30");
 // ?*&Tde!l~%;y
-            return $conectar;
+            // return $conectar;
         }catch(Exception $e){
 print "Ocurrio un error al establecer conexión con la base de datos, intentelo de nuevo" . $e->getMessage(). "<br/>";
 die();
@@ -30,7 +37,7 @@ public static function ruta(){
 //  return "http://ctnredes.com/";
     
     //local
- return "http://localhost:8010/tickets/";
+ return "http://localhost:55/";
 }
 }
 ?>

@@ -551,9 +551,9 @@ lang:'es-ES',
                             CargarListaTickets();
                            //Obtenemos el pdf que se genera
                            //local
-                          // var _url = "http://localhost:8010/tickets/Reportes/ReporteServicio.php?ReporteServicioId="+data.ReporteServicioId+"";
+                           var _url = "http://localhost:8010/tickets/Reportes/ReporteServicio.php?ReporteServicioId="+data.ReporteServicioId+"";
                           //server
-                          var _url = "http://ctnredes.com/Reportes/ReporteServicio.php?ReporteServicioId="+data.ReporteServicioId+"";
+                       //   var _url = "http://ctnredes.com/Reportes/ReporteServicio.php?ReporteServicioId="+data.ReporteServicioId+"";
                          // console.log(_url);
                          //Mandamos a imprimir el reporte
                          printJS({ printable: _url, type: 'pdf', showModal: true })
@@ -747,13 +747,13 @@ onItemEditing: function(args) {
         fields: [
           {name: "ReporteServicioDetalleId", title: "ReporteServicioDetalleId", visible : false},
           {name: "ReporteServicioId", title: "ReporteServicioId", visible : false},
-          { name: "ProductoId", title: "Materiales/Servicios", type: "select", width: 100, items: countries, /*valueField: "ProductoId",*/ textField: "ProductoConcat" ,
+          { name: "ProductoId", title: "Materiales/Servicios", type: "select", width: 100, items: countries, valueField: "ProductoId", textField: "ProductoConcat" ,
           insertTemplate: function(value, item) {
             console.log('in inserttemplate 0');
                var $select = jsGrid.fields.select.prototype.insertTemplate.call(this);
                $select.addClass('selectpicker form-control');
                $select.attr("data-live-search", "true");
-   $select.attr("data-container", "body");
+               $select.attr("data-container", "body");
                
                setTimeout(function() {
                    $select.selectpicker({

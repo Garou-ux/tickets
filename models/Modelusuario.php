@@ -1,7 +1,34 @@
 <?php
-
+include "UsuarioMod.php";
 class Usuario extends Conectar{
     
+
+
+    private function ReadTabla($row) {
+        $result = new TblUsuarios();
+        $result->UsuarioId = $row["UsuarioId"];
+        $result->Nombre = $row["Nombre"];
+        $result->Correo = $row["Correo"];
+        $result->Pass = $row["Pass"];
+        $result->FechaCreado = $row["FechaCreado"];
+        $result->Uso = $row["Uso"];
+        $result->RolId = $row["RolId"];
+        $result->RFC = $row["RFC"];
+        $result->Clave = $row["Clave"];
+        $result->RazonSocial = $row["RazonSocial"];
+        $result->Colonia = $row["Colonia"];
+        $result->Ciudad = $row["Ciudad"];
+        $result->CodigoPostal = $row["CodigoPostal"];
+        $result->Estado = $row["Estado"];
+        $result->Pais = $row["Pais"];
+        $result->Telefono = $row["Telefono"];
+        $result->Condiciones = $row["Condiciones"];
+        $result->Contacto = $row["Contacto"];
+        $result->Cliente = $row["Cliente"];
+        return $result;
+    }
+
+
     public function login(){
         $conectar=parent::Conexion();
         parent::set_names();
@@ -123,6 +150,45 @@ return $resultado = $sql->fetchAll();
             $sql->bindParam(1,$Maestro);
             $sql->execute();
             return $resultado =$sql->fetchAll();
+        }
+
+        public function getClients(){
+          $conectar =  parent::Conexion();
+          parent::set_names();
+          $query = " 
+          SELECT 
+                UsuarioId,
+                Nombre,
+                Correo,
+                Pass,
+                FechaCreado,
+                Uso,
+                RolId,
+                RFC,
+                Clave,
+                RazonSocial,
+                Colonia,
+                Ciudad,
+                CodigoPostal,
+                Estado,
+                Pais,
+                Telefono,
+                Condiciones,
+                Contacto,
+                concat(Nombre, coalesce(RazonSocial, '')) AS Cliente,
+                concat(Nombre, coalesce(RazonSocial, '')) AS text,
+                UsuarioId AS value
+         FROM  tblusuarios
+          where RolId = 2;";
+          $sql = $this->db->prepare($query);
+          $sql->execute();
+          $rows = $sql->fetchAll();
+
+          $result =  array();
+          foreach($rows as $row) {
+            array_push($result, $this->ReadTabla($row));
+        }
+        return $result;
         }
 }
 ?>

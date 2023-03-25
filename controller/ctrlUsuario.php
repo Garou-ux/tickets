@@ -124,5 +124,12 @@ $Datos=$Usuario->AddUsuario($_POST["Maestro"]);
     case "AddUsuarioCliente":
       $Datos=$Usuario->AddUsuarioCliente($_POST["Maestro"]);
               break;
+
+        case "getClients" :
+             $Datos = $Usuario->getClients();
+             echo json_encode($Datos);
+          break;
+
+
   }
 ?>

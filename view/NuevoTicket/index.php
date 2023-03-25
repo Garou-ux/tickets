@@ -6,6 +6,13 @@
 <html>
     <?php require_once("../MainHead/head.php");?>
 	<title>ConecTotal</title>
+
+  <style> 
+    .select_hidden{
+       display : none;
+    }
+  </style>
+
 </head>
 <body class="with-side-menu">
 
@@ -40,7 +47,7 @@
 
 <form method="post" id="TicketForm" name="TicketForm">
 <div class="row">
-<input type="hidden" name="UsuarioId" id="UsuarioId" value=<?php echo $_SESSION["UsuarioId"] ?> >
+   <input type="hidden" name="UsuarioId" id="UsuarioId" value=<?php echo $_SESSION["UsuarioId"] ?> >
 <div class="col-lg-6">
 <fieldset class="form-group">
 <label class="form-label semibold" >Categoría</label>
@@ -58,9 +65,17 @@
 </div>
 <!-- Nombre del usuario a requerir el soporte -->
 <div class="col-lg-12">
-<label class="form-label semibold">Nombre</label>
-<input type="text" id="NombreReq" name="NombreReq" class="form-control" placeholder="Nombre del Solicitante" required>
+    <label class="form-label semibold">Nombre</label>
+    <input type="text" id="NombreReq" name="NombreReq" class="form-control" placeholder="Nombre del Solicitante" required>
 </div>
+<br>
+<div class="col-lg-6 select_hidden"> 
+  <label for="select_cliente" class="form-label semibold">Cliente Solicitante</label>
+  <select class="select" name="select_cliente" id="select_cliente">
+      <option value="0">Sin Asignar...</option>
+  </select>
+</div><br>
+
 <div class="col-lg-12">
 <fieldset class="form-group">
 <label class="form-label semibold" >Descripción</label>
